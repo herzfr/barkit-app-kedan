@@ -1,0 +1,67 @@
+<div class="container-fluid h-general">
+  <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
+  <div class="card">
+    <div class="card-header">
+      D'Coffee Kedan Waiting List Menu System
+    </div>
+    <div class="card-body m-3">
+
+      <div class="row main-board">
+        <div class="col-sm-6 board-waiting">
+          <div class="font-weight-normal board-title">Waiting...</div>
+
+          <div class="board-body mx-1">
+
+            <mat-card class="list-card">
+              <ng-container *ngFor="let list of onWaiting; let i = index;">
+                <div (click)="doneItem(i)" class="row item-order">
+                  <h2 class="col-6 mb-0">Meja : {{ list.meja }}</h2>
+                  <h2 class="col-6  mb-0 text-right">{{ list.nama }}</h2>
+
+
+                  <div *ngFor="let item of list.menu" class="item-card col-12 d-flex border-info mb-1 px-3">
+                    <div class="text-info">
+                      <h2 class="card-title mb-0">{{ item.name }}</h2>
+                      <p class="card-text mb-0">Qty : {{ item.qty }}</p>
+                    </div>
+                  </div>
+
+                  <h3 class="col-12 mb-0 text-left">Note : {{ list.note }}</h3>
+                </div>
+              </ng-container>
+            </mat-card>
+
+          </div>
+
+        </div>
+        <div class="col-sm-6 board-done">
+          <div class="font-weight-normal board-title">Done!</div>
+          <div class="board-body mx-1">
+
+            <mat-card class="list-card">
+              <ng-container *ngFor="let list of onDone; let i = index;">
+                <div (click)="doneItem(i)" class="row item-order">
+                  <h2 class="col-6 mb-0">Meja : {{ list.meja }}</h2>
+                  <h2 class="col-6  mb-0 text-right">{{ list.nama }}</h2>
+
+                  <div *ngFor="let item of list.menu" class="item-card col-12 d-flex border-info mb-1 px-3">
+                    <div class="text-info">
+                      <h2 class="card-title mb-0">{{ item.name }}</h2>
+                      <p class="card-text mb-0">Qty : {{ item.qty }}</p>
+                    </div>
+                  </div>
+
+                  <h3 class="col-12 mb-0 text-left">Note : {{ list.note }}</h3>
+
+                </div>
+              </ng-container>
+            </mat-card>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

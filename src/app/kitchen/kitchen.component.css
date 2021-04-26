@@ -1,0 +1,148 @@
+.h-general {
+  height: 100%;
+}
+
+
+.card {
+  height: inherit;
+  border: 0px;
+}
+
+
+.card-body {
+  background: beige;
+  box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76) inset;
+  -webkit-box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76) inset;
+  -moz-box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76) inset;
+}
+
+.main-board {
+  height: 100%;
+}
+
+.mat-card {
+  background-color: transparent;
+  box-shadow: none;
+  overflow: auto;
+  max-height: 550px;
+}
+
+.board-title {
+  font-size: large;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76);
+  -webkit-box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76);
+  -moz-box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76);
+}
+
+
+.board-waiting {
+  height: inherit;
+}
+
+.board-waiting .board-title {
+  animation-name: waiting-frame;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+.board-done .board-title {
+  animation-name: done-frame;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+
+.board-body {
+  height: auto;
+}
+
+
+.board-done {
+  height: inherit;
+}
+
+.item-order {
+  cursor: pointer;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76);
+  -webkit-box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76);
+  -moz-box-shadow: 2px 5px 13px 0px rgba(40, 40, 40, 0.76);
+}
+
+.item-order:hover {
+  transition: all 0.8s ease;
+  background: #ffef11;
+}
+
+
+@keyframes waiting-frame {
+  0% {
+    background-color: #fdfdfd;
+    left: 0px;
+    top: 0px;
+  }
+
+  25% {
+    background-color: #fff38b;
+    left: 200px;
+    top: 0px;
+  }
+
+  50% {
+    background-color: #fce839;
+    left: 200px;
+    top: 200px;
+  }
+
+  75% {
+    background-color: #fff38b;
+    left: 0px;
+    top: 200px;
+  }
+
+  100% {
+    background-color: #fff;
+    left: 0px;
+    top: 0px;
+  }
+}
+
+@keyframes done-frame {
+  0% {
+    background-color: #fdfdfd;
+    left: 0px;
+    top: 0px;
+  }
+
+  25% {
+    background-color: #99ffcf;
+    left: 200px;
+    top: 0px;
+  }
+
+  50% {
+    background-color: #39fca1;
+    left: 200px;
+    top: 200px;
+  }
+
+  75% {
+    background-color: #99ffcf;
+    left: 0px;
+    top: 200px;
+  }
+
+  100% {
+    background-color: #fff;
+    left: 0px;
+    top: 0px;
+  }
+}

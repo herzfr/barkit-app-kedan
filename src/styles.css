@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200&display=swap');
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Mulish', sans-serif;
+  background-image: url('./assets/images/background_1.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #f8e218;
+  box-shadow: inset 0 0 6px #f8e218;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 0 6px #f8e218;
+  box-shadow: inset 0 0 6px #f8e218;
+}
+
+.backdropBackground {
+  /* background-color: transparent; */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  will-change: auto;
+}
+
+.cdk-overlay-container {
+  z-index: 9999 !important;
+  overflow: auto;
+}
