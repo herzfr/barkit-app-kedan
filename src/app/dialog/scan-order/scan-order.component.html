@@ -1,0 +1,11 @@
+<h1 mat-dialog-title class="text-center">
+  <mat-icon>qr_code_scanner</mat-icon>
+</h1>
+<div mat-dialog-content class="text-center">
+  <textarea #search (input)="func($event)" name="reply" id="reply_message" class="input" spellcheck="false"
+    [(ngModel)]="values"></textarea>
+</div>
+<h5 class="font-weight-light text-success text-center">Silahkan ke kasir untuk scan qr pesanan</h5>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button (click)="onNoClick()">Selesai</button>
+</div>

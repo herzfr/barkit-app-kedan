@@ -1,0 +1,14 @@
+textarea {
+  border: 0px;
+  /* color: transparent; */
+  width: 100%;
+  height: 0px;
+  color: transparent;
+  /* display: contents; */
+}
+
+textarea:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}

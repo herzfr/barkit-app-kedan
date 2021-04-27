@@ -1,0 +1,119 @@
+.h-general {
+  height: 100%;
+}
+
+.logo-small {
+  width: 40px;
+}
+
+.card-header {
+  background: #ffd400;
+  color: #fff;
+}
+
+.h-body {
+  height: 100vh;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+.display-4 {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.2;
+  padding: 5px;
+  border: 1px solid;
+}
+
+.order {
+  color: #14a2a9;
+}
+
+.waiting {
+  color: #d1df16;
+}
+
+.ready {
+  color: #38df16;
+}
+
+
+.on-order,
+.on-ready,
+.on-waiting {
+  overflow: auto;
+  max-height: 90vh;
+}
+
+
+.text-menu {
+  width: 100%;
+  padding: 5px;
+  margin: 5px;
+  border: 0px;
+  min-height: 100px;
+}
+
+
+
+/* Waiting */
+
+ul,
+li {
+  list-style-type: none;
+}
+
+.pr {
+  padding-right: 2px;
+  color: #557780;
+}
+
+li {
+  display: inline-block;
+  margin-left: 2px;
+  width: 5px;
+  height: 5px;
+  background-color: #557780;
+  border-radius: 100%;
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+li:nth-child(2) {
+  animation-delay: .15s;
+}
+
+li:nth-child(3) {
+  animation-delay: .25s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1)
+  }
+
+  50% {
+    transform: scale(1.2)
+  }
+
+  100% {
+    transform: scale(1)
+  }
+}
+
+body {
+  text-align: center;
+  line-height: 100vh;
+  background-color: #25373D;
+}
+
+.bounce-anim {
+  display: inline-block;
+  margin: auto;
+}

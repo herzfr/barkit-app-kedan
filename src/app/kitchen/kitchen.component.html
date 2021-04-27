@@ -1,67 +1,72 @@
-<div class="container-fluid h-general">
+<div class="container-fluid h-general p-0">
   <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
   <div class="card">
-    <div class="card-header">
-      D'Coffee Kedan Waiting List Menu System
+    <div class="card-header d-flex">
+      <div class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold">
+        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt="">d'Coffee Kedan / {{ getUserInfo() }}
+      </div>
+      <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KITCHEN AND BAR</div>
+      <div class="col-sm-4 d-flex justify-content-end align-items-center font-weight-bold">
+        <!-- <button mat-raised-button color="warn">
+          <mat-icon>add</mat-icon>Make Order
+        </button> -->
+      </div>
     </div>
-    <div class="card-body m-3">
-
-      <div class="row main-board">
-        <div class="col-sm-6 board-waiting">
-          <div class="font-weight-normal board-title">Waiting...</div>
-
-          <div class="board-body mx-1">
-
-            <mat-card class="list-card">
-              <ng-container *ngFor="let list of onWaiting; let i = index;">
-                <div (click)="doneItem(i)" class="row item-order">
-                  <h2 class="col-6 mb-0">Meja : {{ list.meja }}</h2>
-                  <h2 class="col-6  mb-0 text-right">{{ list.nama }}</h2>
 
 
-                  <div *ngFor="let item of list.menu" class="item-card col-12 d-flex border-info mb-1 px-3">
-                    <div class="text-info">
-                      <h2 class="card-title mb-0">{{ item.name }}</h2>
-                      <p class="card-text mb-0">Qty : {{ item.qty }}</p>
-                    </div>
+    <div class="card-body h-body">
+      <div class="row">
+
+        <!-- ON STATUS 1 -->
+        <div class="col-sm-6">
+
+          <div class="display-4 text-center mb-1 waiting">WAITING</div>
+          <div class="on-waiting">
+            <ng-container *ngFor="let list of listDataOnWaiting; let i = index;">
+              <mat-card class="list-card border-primary mb-1">
+                <div class="row item-order ">
+                  <h3 class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                  <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
+                  <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
+                  <hr>
+                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
+                  <hr>
+                  <div class="d-flex col-12 p-0 justify-content-end">
+                    <button (click)="doProccess(list.id, getUserInfo())" color="primary"
+                      mat-raised-button>Proccess</button>
                   </div>
-
-                  <h3 class="col-12 mb-0 text-left">Note : {{ list.note }}</h3>
                 </div>
-              </ng-container>
-            </mat-card>
-
+              </mat-card>
+            </ng-container>
           </div>
 
         </div>
-        <div class="col-sm-6 board-done">
-          <div class="font-weight-normal board-title">Done!</div>
-          <div class="board-body mx-1">
+        <!-- ON STATUS 3 -->
+        <div class="col-sm-6">
 
-            <mat-card class="list-card">
-              <ng-container *ngFor="let list of onDone; let i = index;">
-                <div (click)="doneItem(i)" class="row item-order">
-                  <h2 class="col-6 mb-0">Meja : {{ list.meja }}</h2>
-                  <h2 class="col-6  mb-0 text-right">{{ list.nama }}</h2>
-
-                  <div *ngFor="let item of list.menu" class="item-card col-12 d-flex border-info mb-1 px-3">
-                    <div class="text-info">
-                      <h2 class="card-title mb-0">{{ item.name }}</h2>
-                      <p class="card-text mb-0">Qty : {{ item.qty }}</p>
-                    </div>
+          <div class="display-4 text-center mb-1 ready">PROSES</div>
+          <div class="on-ready">
+            <ng-container *ngFor="let list of listDataOnProsses; let i = index;">
+              <mat-card class="list-card border-primary mb-1">
+                <div class="row item-order ">
+                  <h3 class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                  <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
+                  <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
+                  <hr>
+                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
+                  <hr>
+                  <div class="d-flex col-12 p-0 justify-content-end">
+                    <button (click)="doneProccess(list.id)" mat-raised-button>Done</button>
                   </div>
-
-                  <h3 class="col-12 mb-0 text-left">Note : {{ list.note }}</h3>
-
                 </div>
-              </ng-container>
-            </mat-card>
-
+              </mat-card>
+            </ng-container>
           </div>
 
         </div>
       </div>
-
     </div>
+
   </div>
+
 </div>

@@ -6,16 +6,16 @@
 
 
         <h1 class="title">Sign In</h1>
-        <form action="login.html">
+        <form [formGroup]="loginForm">
           <div class="input-group">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Username">
+            <input type="text" placeholder="Username" formControlName="username">
           </div>
           <div class="input-group">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password">
+            <input type="password" placeholder="Password" formControlName="password">
           </div>
-          <button type="submit" class="btn">Sign In</button>
+          <button (click)="submit()" type="submit" class="btn">Sign In</button>
         </form>
 
 

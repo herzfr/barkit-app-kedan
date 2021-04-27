@@ -11,7 +11,30 @@ export class HomeComponent implements OnInit {
   message;
   messageList = [];
 
-  constructor(private socketService: SocketioService) { }
+  cashier: boolean;
+  kitchen: boolean;
+
+  constructor(private socketService: SocketioService) {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const roles = user['roles'];
+    for (const key in roles) {
+      if (Object.prototype.hasOwnProperty.call(roles, key)) {
+        const element = roles[key];
+        switch (element) {
+          case 'ROLE_CASHIER':
+            this.cashier = true;
+            this.kitchen = false;
+            break;
+          case 'ROLE_KITCHEN':
+            this.cashier = false;
+            this.kitchen = true;
+            break;
+        }
+      }
+    }
+
+
+  }
 
   ngOnInit(): void {
     this.socketService.setupSocketConnection();

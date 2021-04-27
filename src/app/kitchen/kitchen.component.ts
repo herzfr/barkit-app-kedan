@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { KitchenService } from '../services/kitchen.service';
 import { SocketioService } from '../services/socketio.service';
 
 @Component({
@@ -8,72 +9,17 @@ import { SocketioService } from '../services/socketio.service';
 })
 export class KitchenComponent implements OnInit {
 
-  message;
+  message = "00";
   messageList = [];
 
-  onWaiting = [
-    {
-      meja: 1,
-      nama: "Dony",
-      note: "Gak Pake lama",
-      menu: [
-        {
-          harga: 21000,
-          id: 34,
-          name: "Mantau Goreng ",
-          qty: 2,
-        },
-        {
-          harga: 15000,
-          id: 1,
-          name: "Espresso",
-          qty: 2,
-        }
-      ],
-    },
-    {
-      meja: 3,
-      nama: "Suparman",
-      note: "Cabenya Banyakin",
-      menu: [
-        {
-          harga: 21000,
-          id: 34,
-          name: "Mantau Goreng ",
-          qty: 2,
-        },
-        {
-          harga: 15000,
-          id: 1,
-          name: "Espresso",
-          qty: 2,
-        }
-      ],
-    },
-    {
-      meja: 8,
-      nama: "Supryadi",
-      note: "Test",
-      menu: [
-        {
-          harga: 21000,
-          id: 34,
-          name: "Mantau Goreng ",
-          qty: 2,
-        },
-        {
-          harga: 15000,
-          id: 1,
-          name: "Espresso",
-          qty: 2,
-        }
-      ],
-    }
-  ];
+  listDataOnWaiting;
+  listDataOnProsses;
 
-  onDone = [];
 
-  constructor(private socketService: SocketioService) { }
+  constructor(private socketService: SocketioService, private kitchenService: KitchenService) {
+    this.getUserInfo()
+    this.getDataAll()
+  }
 
   ngOnInit(): void {
     this.socketService.setupSocketConnection();
@@ -82,6 +28,7 @@ export class KitchenComponent implements OnInit {
       .subscribe((message: string) => {
         console.log(message);
         this.messageList.push(message);
+        this.getDataAll()
       });
   }
 
@@ -90,17 +37,62 @@ export class KitchenComponent implements OnInit {
     this.socketService.sendMessage(this.message)
   }
 
+  getDataAll() {
+    this.getDataOnWaiting()
+    this.getDataOnProsses()
+  }
 
-  doneItem(event) {
-    console.log(event);
-    this.onWaiting.forEach((item, index) => {
-      // console.log(item);
-      // console.log(index);
-      if (index == event) {
-        this.onDone.push(item)
-        this.onWaiting.splice(index, 1);
+
+  getUserInfo() {
+    let user = JSON.parse(localStorage.getItem('currentUser'))
+    return user.name;
+  }
+
+  getDataOnWaiting() {
+    this.kitchenService.getDataOnWaiting().subscribe(res => {
+      console.log(res);
+      if (res['codestatus'] === "00") {
+        this.listDataOnWaiting = res['values']
       }
     })
   }
+
+  getDataOnProsses() {
+    this.kitchenService.getDataOnProsses().subscribe(res => {
+      console.log(res);
+      if (res['codestatus'] === "00") {
+        this.listDataOnProsses = res['values']
+      }
+    })
+  }
+
+  doProccess(id, cashier) {
+    console.log(id, cashier);
+    let obj: any = new Object;
+    obj.id = id;
+    obj.cashier = cashier;
+    this.kitchenService.proccessOrder(obj).subscribe(res => {
+      console.log(res);
+      if (res['codestatus'] === "00") {
+        this.getDataAll()
+        this.send()
+      }
+    })
+  }
+
+  doneProccess(id) {
+    console.log(id);
+    let obj: any = new Object;
+    obj.id = id;
+    this.kitchenService.readyOrder(obj).subscribe(res => {
+      console.log(res);
+      if (res['codestatus'] === "00") {
+        this.getDataAll()
+        this.send()
+      }
+    })
+  }
+
+
 
 }
