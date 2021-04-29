@@ -21,6 +21,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { ScanOrderComponent } from './dialog/scan-order/scan-order.component';
 import { CustomDialogComponent } from './dialog/custom-dialog/custom-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AvailableComponent } from './available/available.component';
+import player from 'lottie-web';
+import { LottieModule } from 'ngx-lottie';
+import { AvailableService } from './services/available.service';
+import { MatTableModule } from '@angular/material/table';
+import { CategoryPipe } from './pipes/category.pipe';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
+import { AvatarDialogComponent } from './dialog/avatar-dialog/avatar-dialog.component';
+import { AddDialogComponent } from './dialog/add-dialog/add-dialog.component';
+import { AdminComponent } from './admin/admin.component';
+
+export function playerFactory() {
+  return player;
+}
 
 
 @NgModule({
@@ -32,7 +49,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     LoginComponent,
     NotfoundComponent,
     ScanOrderComponent,
-    CustomDialogComponent
+    CustomDialogComponent,
+    AvailableComponent,
+    CategoryPipe,
+    AvatarDialogComponent,
+    AddDialogComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -41,15 +63,29 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     BrowserAnimationsModule,
 
+    LottieModule.forRoot({ player: playerFactory }),
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.chasingDots,
+      backdropBackgroundColour: 'rgba(0,0,0,0.50)',
+      backdropBorderRadius: '4px',
+      primaryColour: '#ffffff',
+      secondaryColour: '#ffffff',
+      tertiaryColour: '#ffffff'
+    }),
+
 
     HttpClientModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule
   ],
-  entryComponents: [ScanOrderComponent],
-  providers: [SocketioService, AuthService, CashierService, KitchenService],
+  entryComponents: [ScanOrderComponent, AvatarDialogComponent],
+  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

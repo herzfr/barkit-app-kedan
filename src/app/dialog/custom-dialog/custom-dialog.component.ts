@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-custom-dialog',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomDialogComponent implements OnInit {
 
-  constructor() { }
+  icon;
+  message;
 
-  ngOnInit(): void {
+  constructor(private dialogRef: MatDialogRef<CustomDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
+    // console.log(data);
+    this.icon = data.icon;
+    this.message = data.message;
   }
 
+  ngOnInit() {
+  }
+
+  onNoClick() {
+    this.dialogRef.close()
+  }
 }

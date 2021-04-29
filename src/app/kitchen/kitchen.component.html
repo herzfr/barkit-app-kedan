@@ -3,13 +3,13 @@
   <div class="card">
     <div class="card-header d-flex">
       <div class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold">
-        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt="">d'Coffee Kedan / {{ getUserInfo() }}
+        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt="">KITCHEN AND BAR / {{ getUserInfo() }}
       </div>
-      <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KITCHEN AND BAR</div>
-      <div class="col-sm-4 d-flex justify-content-end align-items-center font-weight-bold">
-        <!-- <button mat-raised-button color="warn">
-          <mat-icon>add</mat-icon>Make Order
-        </button> -->
+      <!-- <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KITCHEN AND BAR</div> -->
+      <div class="col-sm d-flex justify-content-end align-items-center font-weight-bold">
+        <button (click)="logout()" mat-raised-button color="warn">
+          <mat-icon>logout</mat-icon>Logout
+        </button>
       </div>
     </div>
 
@@ -21,6 +21,7 @@
         <div class="col-sm-6">
 
           <div class="display-4 text-center mb-1 waiting">WAITING</div>
+
           <div class="on-waiting">
             <ng-container *ngFor="let list of listDataOnWaiting; let i = index;">
               <mat-card class="list-card border-primary mb-1">
@@ -44,8 +45,15 @@
         <!-- ON STATUS 3 -->
         <div class="col-sm-6">
 
-          <div class="display-4 text-center mb-1 ready">PROSES</div>
-          <div class="on-ready">
+          <!-- <div class="display-4 text-center mb-1 proses">PROSES</div> -->
+          <div class="bounce-anim d-flex display-4 justify-content-center mb-1 proses"><span class="pr">PROSES</span>
+            <ul class="p-0 m-0">
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+          <div class="on-proses">
             <ng-container *ngFor="let list of listDataOnProsses; let i = index;">
               <mat-card class="list-card border-primary mb-1">
                 <div class="row item-order ">

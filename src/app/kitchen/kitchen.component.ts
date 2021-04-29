@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { KitchenService } from '../services/kitchen.service';
 import { SocketioService } from '../services/socketio.service';
 
@@ -16,7 +17,7 @@ export class KitchenComponent implements OnInit {
   listDataOnProsses;
 
 
-  constructor(private socketService: SocketioService, private kitchenService: KitchenService) {
+  constructor(private socketService: SocketioService, private kitchenService: KitchenService, private route: Router) {
     this.getUserInfo()
     this.getDataAll()
   }
@@ -26,7 +27,7 @@ export class KitchenComponent implements OnInit {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
-        console.log(message);
+        // console.log(message);
         this.messageList.push(message);
         this.getDataAll()
       });
@@ -50,7 +51,7 @@ export class KitchenComponent implements OnInit {
 
   getDataOnWaiting() {
     this.kitchenService.getDataOnWaiting().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnWaiting = res['values']
       }
@@ -59,7 +60,7 @@ export class KitchenComponent implements OnInit {
 
   getDataOnProsses() {
     this.kitchenService.getDataOnProsses().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnProsses = res['values']
       }
@@ -67,12 +68,12 @@ export class KitchenComponent implements OnInit {
   }
 
   doProccess(id, cashier) {
-    console.log(id, cashier);
+    // console.log(id, cashier);
     let obj: any = new Object;
     obj.id = id;
     obj.cashier = cashier;
     this.kitchenService.proccessOrder(obj).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
         this.send()
@@ -81,11 +82,11 @@ export class KitchenComponent implements OnInit {
   }
 
   doneProccess(id) {
-    console.log(id);
+    // console.log(id);
     let obj: any = new Object;
     obj.id = id;
     this.kitchenService.readyOrder(obj).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
         this.send()
@@ -93,6 +94,9 @@ export class KitchenComponent implements OnInit {
     })
   }
 
-
+  logout() {
+    localStorage.clear()
+    this.route.navigate(['/login'])
+  }
 
 }

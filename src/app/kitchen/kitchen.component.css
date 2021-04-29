@@ -28,20 +28,23 @@ h3 {
 }
 
 .order {
-  color: #14a2a9;
+  color: #ffffff;
+  background: #14a2a9;
 }
 
 .waiting {
-  color: #d1df16;
+  color: #ffffff;
+  background: #ebc20f;
 }
 
-.ready {
-  color: #38df16;
+.proses {
+  color: #ffffff;
+  background: #169fdf;
 }
 
 
 .on-order,
-.on-ready,
+.on-proses,
 .on-waiting {
   overflow: auto;
   max-height: 90vh;
@@ -67,7 +70,7 @@ li {
 
 .pr {
   padding-right: 2px;
-  color: #557780;
+  color: #f7f7f7;
 }
 
 li {
@@ -75,7 +78,7 @@ li {
   margin-left: 2px;
   width: 5px;
   height: 5px;
-  background-color: #557780;
+  background-color: #ffffff;
   border-radius: 100%;
   -webkit-animation-name: bounce;
   animation-name: bounce;

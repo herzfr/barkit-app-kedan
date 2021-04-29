@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions } from 'ngx-lottie';
 declare var $: any;
 
 @Component({
@@ -10,7 +12,11 @@ declare var $: any;
 export class ScanOrderComponent implements OnInit, AfterViewInit {
   @ViewChild('search') searchElement: ElementRef;
   values
+  options: AnimationOptions = {
+    path: 'assets/json/scan_animation.json',
+  };
   constructor(private dialogRef: MatDialogRef<ScanOrderComponent>, @Inject(MAT_DIALOG_DATA) data) {
+
   }
 
   ngOnInit(): void {
@@ -22,7 +28,7 @@ export class ScanOrderComponent implements OnInit, AfterViewInit {
   }
 
   onNoClick() {
-    this.dialogRef.close(this.searchElement.nativeElement.value)
+    this.dialogRef.close()
   }
 
 
@@ -35,5 +41,9 @@ export class ScanOrderComponent implements OnInit, AfterViewInit {
       this.dialogRef.close(data)
     }
   };
+
+  animationCreated(animationItem: AnimationItem): void {
+    // console.log(animationItem);
+  }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ScanOrderComponent } from '../dialog/scan-order/scan-order.component';
 import { CashierService } from '../services/cashier.service';
 import { SocketioService } from '../services/socketio.service';
@@ -18,7 +19,8 @@ export class CashierComponent implements OnInit {
   listDataOnWaiting;
   listDataOnReady;
 
-  constructor(private socketService: SocketioService, private cashierService: CashierService, private dialog: MatDialog) {
+  constructor(private socketService: SocketioService, private cashierService: CashierService, private dialog: MatDialog,
+    private route: Router) {
     this.getUserInfo()
     this.getDataAll()
   }
@@ -28,7 +30,7 @@ export class CashierComponent implements OnInit {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
-        console.log(message);
+        // console.log(message);
         this.messageList.push(message);
         this.getDataAll()
       });
@@ -52,7 +54,7 @@ export class CashierComponent implements OnInit {
 
   getDataOnOrder() {
     this.cashierService.getDataOnOrder().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnOrder = res['values']
       }
@@ -61,7 +63,7 @@ export class CashierComponent implements OnInit {
 
   getDataOnWaiting() {
     this.cashierService.getDataOnWaiting().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnWaiting = res['values']
       }
@@ -70,7 +72,7 @@ export class CashierComponent implements OnInit {
 
   getDataOnReady() {
     this.cashierService.getDataOnReady().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnReady = res['values']
       }
@@ -79,12 +81,12 @@ export class CashierComponent implements OnInit {
 
 
   doApprove(id, cashier) {
-    console.log(id, cashier);
+    // console.log(id, cashier);
     let obj: any = new Object;
     obj.id = id;
     obj.cashier = cashier;
     this.cashierService.approveOrder(obj).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
         this.send()
@@ -93,11 +95,11 @@ export class CashierComponent implements OnInit {
   }
 
   done(id) {
-    console.log(id);
+    // console.log(id);
     let obj: any = new Object;
     obj.id = id;
     this.cashierService.doneOrder(obj).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
         this.send()
@@ -118,15 +120,38 @@ export class CashierComponent implements OnInit {
     );
 
     dialogScanQR.afterClosed().subscribe(res => {
-      let dataScan = JSON.parse(res)
-      console.log(dataScan);
-      this.cashierService.sendOrder(dataScan).subscribe(res => {
-        if (res['codestatus'] === "00") {
-          this.getDataAll()
-          this.send()
-        }
-      })
+      if (res !== undefined) {
+        let dataScan = JSON.parse(res)
+        // console.log(dataScan);
+        this.cashierService.sendOrder(dataScan).subscribe(res => {
+          if (res['codestatus'] === "00") {
+            this.getDataAll()
+            this.send()
+          }
+        })
+      }
     })
+  }
+
+  makeAvailable() {
+    this.route.navigate(['/available'])
+  }
+
+  rejectOrder(id) {
+    let obj: any = new Object;
+    obj.id = id;
+    this.cashierService.doneOrder(obj).subscribe(res => {
+      // console.log(res);
+      if (res['codestatus'] === "00") {
+        this.getDataAll()
+        this.send()
+      }
+    })
+  }
+
+  logout() {
+    localStorage.clear()
+    this.route.navigate(['/login'])
   }
 
 }

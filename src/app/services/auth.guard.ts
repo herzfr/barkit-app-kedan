@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate {
 
       for (let index = 0; index < allowedRoles.length; index++) {
         const element = allowedRoles[index];
-        console.log(element);
+        // console.log(element);
 
         for (let index = 0; index < decodedToken.role.length; index++) {
           const element2 = decodedToken.role[index];

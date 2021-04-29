@@ -28,15 +28,18 @@ h3 {
 }
 
 .order {
-  color: #14a2a9;
+  color: #ffffff;
+  background: #14a2a9;
 }
 
 .waiting {
-  color: #d1df16;
+  color: #ffffff;
+  background: #d1df16;
 }
 
 .ready {
-  color: #38df16;
+  color: #ffffff;
+  background: #38df16;
 }
 
 
@@ -116,4 +119,10 @@ body {
 .bounce-anim {
   display: inline-block;
   margin: auto;
+}
+
+
+.btn-color {
+  background-color: #25373D;
+  color: #fff;
 }

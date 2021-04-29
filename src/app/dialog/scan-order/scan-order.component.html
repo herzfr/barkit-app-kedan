@@ -5,7 +5,8 @@
   <textarea #search (input)="func($event)" name="reply" id="reply_message" class="input" spellcheck="false"
     [(ngModel)]="values"></textarea>
 </div>
-<h5 class="font-weight-light text-success text-center">Silahkan ke kasir untuk scan qr pesanan</h5>
+<ng-lottie [options]="options" (animationCreated)="animationCreated($event)"></ng-lottie>
+<h5 class="font-weight-light text-success text-center">Scan Pesanan Tamu</h5>
 <div mat-dialog-actions class="justify-content-center">
-  <button mat-button (click)="onNoClick()">Selesai</button>
+  <button mat-button (click)="onNoClick()">Batal</button>
 </div>

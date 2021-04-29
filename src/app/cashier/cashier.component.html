@@ -3,12 +3,20 @@
   <div class="card">
     <div class="card-header d-flex">
       <div class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold">
-        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt=""> d'Coffee Kedan / {{ getUserInfo() }}
+        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt=""> CASHIER / {{ getUserInfo() }}
       </div>
-      <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KASIR</div>
-      <div class="col-sm-4 d-flex justify-content-end align-items-center font-weight-bold">
-        <button (click)="scanOrder()" mat-raised-button color="warn">
-          <mat-icon>add</mat-icon>Make Order
+      <!-- <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KASIR</div> -->
+      <div class="col-sm-4 d-flex justify-content-center align-items-center font-weight-bold">
+        <button (click)="makeAvailable()" class="mr-2" mat-raised-button color="warn">
+          <mat-icon>checklist_rtl</mat-icon>MENU
+        </button>
+        <button (click)="scanOrder()" class="mr-2" mat-raised-button color="warn">
+          <mat-icon>flip</mat-icon>Scan Order
+        </button>
+      </div>
+      <div class="col-sm-4 justify-content-end h4 m-0 align-items-center d-flex">
+        <button (click)="logout()" mat-raised-button color="warn">
+          <mat-icon>logout</mat-icon>Logout
         </button>
       </div>
     </div>
@@ -24,15 +32,15 @@
             <ng-container *ngFor="let list of listDataOnOrder; let i = index;">
               <mat-card class="list-card border-primary mb-1">
                 <div class="row item-order ">
-                  <h3 class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                  <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                  <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
-                  <hr>
                   <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
-                  <hr>
                   <div class="d-flex col-12 p-0">
-                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Total :</span> Rp
+                    <h4 class="col-6 mb-0 text-left p-0"><span class="font-weight-bold"> Total :</span> Rp
                       {{ list.total | number: '1.0-0'  }}</h4>
+                    <button class="mr-1 btn-color" (click)="rejectOrder(list.id)" mat-raised-button>Reject</button>
                     <button (click)="doApprove(list.id, getUserInfo())" mat-raised-button
                       color="accent">Aprrove</button>
                   </div>

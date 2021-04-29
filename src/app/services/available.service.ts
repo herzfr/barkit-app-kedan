@@ -5,10 +5,11 @@ import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, of, pipe } from 'rxjs';
 import { catchError, tap, timeout, } from 'rxjs/operators';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class CashierService {
+export class AvailableService {
 
   private apiUrl;
   private timeOut: number = 30000;
@@ -30,17 +31,132 @@ export class CashierService {
     return user.accessToken;
   }
 
-  sendOrder(obj) {
+
+  getAllMenu() {
+    return this.http.get<any>(this.apiUrl + "/api/product", this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
+  getAllMenuLike(obj) {
+    const authObj = JSON.stringify(obj);
+    return this.http.post<any>(this.apiUrl + "/api/getProductLike", authObj, this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
+
+  getAllCategory() {
+    return this.http.get<any>(this.apiUrl + "/api/categoryProduct", this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
+  updateProduct(data) {
+    const authObj = JSON.stringify(data);
+    return this.http.post<any>(this.apiUrl + "/api/productAvaliable", authObj, this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
+  addProduct(data) {
+    const authObj = JSON.stringify(data);
+    return this.http.post<any>(this.apiUrl + "/api/addProduct", authObj, this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
+  updateAvatar(data) {
 
     var headers_object2 = new HttpHeaders()
-      .set('Content-Type', 'application/json')
+      // .set('Content-Type', 'multipart/form-data')
+      .set('x-access-token', this.getToken())
 
-    var httpOptions2 = {
-      headers: this.headers_object
+    var httpOptions = {
+      headers: headers_object2
     };
 
-    const authObj = JSON.stringify(obj);
-    return this.http.post(this.apiUrl + "/api/order", authObj, httpOptions2)
+    const formData: FormData = new FormData();
+    formData.append('image', data.avatar);
+    formData.append('id', data.id);
+    console.log(formData);
+
+    return this.http.post<any>(this.apiUrl + "/api/upload", formData, httpOptions)
       .pipe(
         // tap(usr => {
         // }),
@@ -61,136 +177,4 @@ export class CashierService {
   }
 
 
-  getDataOnOrder() {
-    return this.http.get<any>(this.apiUrl + "/api/getOrderOnNew", this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-
-  getDataOnWaiting() {
-    return this.http.get<any>(this.apiUrl + "/api/getOrderOnReserve", this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-
-  getDataOnReady() {
-    return this.http.get<any>(this.apiUrl + "/api/getOrderOnReady", this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-
-  approveOrder(data) {
-    const authObj = JSON.stringify(data);
-    return this.http.post<any>(this.apiUrl + "/api/onApproveOrder", authObj, this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-  doneOrder(data) {
-    const authObj = JSON.stringify(data);
-    return this.http.post<any>(this.apiUrl + "/api/onFinishOrder", authObj, this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-
-  rejectOrder(data) {
-    const authObj = JSON.stringify(data);
-    return this.http.post<any>(this.apiUrl + "/api/onRejectOrder", authObj, this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
 }

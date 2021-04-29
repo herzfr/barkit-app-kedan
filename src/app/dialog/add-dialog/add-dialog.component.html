@@ -1,0 +1,43 @@
+<h1 mat-dialog-title class="text-center">
+  ADD PRODUCT
+</h1>
+<div mat-dialog-content class="text-center col-12">
+
+  <form [formGroup]="form" autocomplete="off">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nama</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="name">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Deskripsi</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="desc">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Harga</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="harga">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Kategori</mat-label>
+      <mat-select formControlName="category" name="category">
+        <mat-option *ngFor="let item of categoryl" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox class="example-margin" formControlName="available">Stok Product</mat-checkbox>
+
+  </form>
+
+</div>
+<div mat-dialog-actions class="justify-content-between">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSave()">+ Add</button>
+</div>

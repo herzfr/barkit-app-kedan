@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +7,11 @@ import { SocketioService } from '../services/socketio.service';
 })
 export class HomeComponent implements OnInit {
 
-  message;
-  messageList = [];
-
   cashier: boolean;
   kitchen: boolean;
+  admin: boolean;
 
-  constructor(private socketService: SocketioService) {
+  constructor() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const roles = user['roles'];
     for (const key in roles) {
@@ -24,32 +21,26 @@ export class HomeComponent implements OnInit {
           case 'ROLE_CASHIER':
             this.cashier = true;
             this.kitchen = false;
+            this.admin = false;
             break;
           case 'ROLE_KITCHEN':
             this.cashier = false;
             this.kitchen = true;
+            this.admin = false;
+            break;
+          case 'ROLE_ADMIN':
+            this.cashier = false;
+            this.kitchen = false;
+            this.admin = true;
             break;
         }
       }
     }
-
-
   }
 
   ngOnInit(): void {
-    this.socketService.setupSocketConnection();
-    this.socketService
-      .getMessages()
-      .subscribe((message: string) => {
-        console.log(message);
-        this.messageList.push(message);
-      });
   }
 
-  send() {
-    // console.log(this.message);
-    this.socketService.sendMessage(this.message)
-  }
 
 
 }

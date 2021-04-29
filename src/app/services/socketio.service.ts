@@ -13,7 +13,7 @@ export class SocketioService {
 
   setupSocketConnection() {
     this.socket = io(environment.SOCKET_ENDPOINT);
-    console.log(this.socket);
+    // console.log(this.socket);
 
   }
 
