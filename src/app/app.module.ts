@@ -34,6 +34,11 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 import { AvatarDialogComponent } from './dialog/avatar-dialog/avatar-dialog.component';
 import { AddDialogComponent } from './dialog/add-dialog/add-dialog.component';
 import { AdminComponent } from './admin/admin.component';
+import { ManagementService } from './services/management.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 export function playerFactory() {
   return player;
@@ -82,10 +87,13 @@ export function playerFactory() {
     MatTableModule,
     MatInputModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSnackBarModule,
   ],
   entryComponents: [ScanOrderComponent, AvatarDialogComponent],
-  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService],
+  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService, ManagementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

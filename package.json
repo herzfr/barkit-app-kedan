@@ -23,7 +23,9 @@
     "@angular/platform-browser-dynamic": "~9.1.13",
     "@angular/router": "~9.1.13",
     "@auth0/angular-jwt": "^5.0.2",
+    "angular-notifier": "^6.0.2",
     "bootstrap": "^4.6.0",
+    "howler": "^2.2.1",
     "jquery": "^3.6.0",
     "lottie-web": "^5.7.8",
     "ngx-loading": "^8.0.0",
@@ -32,6 +34,7 @@
     "rxjs": "~6.6.7",
     "socket.io-client": "^4.0.1",
     "tslib": "^1.10.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

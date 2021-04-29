@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       if (res['status'] === 400 || res['status'] === 401 || res['status'] === 404) {
         alert(res['error'].message)
       } else {
-        console.log(res);
+        // console.log(res);
         this.resetcredentials();
         localStorage.setItem("currentUser", JSON.stringify(res));
         this.route.navigate(["/home"]);

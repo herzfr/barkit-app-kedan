@@ -26,9 +26,9 @@ export class AvailableComponent implements OnInit {
     "harga",
     "available",
     "update",
+    "delete",
     // "edit",
     // "change",
-    // "delete",
   ];
 
   categoryl;
@@ -57,6 +57,7 @@ export class AvailableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserInfo()
+    this.getUserRole()
     this.initFormArray()
     this.getAllMenu("")
   }
@@ -98,6 +99,21 @@ export class AvailableComponent implements OnInit {
   getUserInfo() {
     let user = JSON.parse(localStorage.getItem('currentUser'))
     return user.name;
+  }
+
+  getUserRole() {
+    let user = JSON.parse(localStorage.getItem('currentUser'))
+    console.log(user.roles);
+    for (const key in user.roles) {
+      if (Object.prototype.hasOwnProperty.call(user.roles, key)) {
+        const element = user.roles[key];
+        if (element === "ROLE_ADMIN") {
+          return true
+        }
+        return false;
+      }
+    }
+    // return user.role;
   }
 
   getAllMenu(search) {
@@ -241,6 +257,30 @@ export class AvailableComponent implements OnInit {
       dialogConfig
     );
     dialogCustom.afterClosed();
+  }
+
+  private i = 0;
+  private id;
+  deleteMenu(event) {
+    // this.id = event.id;
+    if (this.id === event.id) {
+      this.i++
+      if (this.i == 2) {
+        let obj: any = new Object();
+        obj.id = event.id;
+        this.availableService.deleteProduct(obj).subscribe(res => {
+          if (res['codestatus'] == "00") {
+            // console.log(res);
+            this.customDialog("check_circle", res['message'])
+          } else {
+            this.customDialog("sms_failed", "Data Failed")
+          }
+        })
+      }
+    } else {
+      this.id = event.id
+      this.i = 0;
+    }
   }
 
 

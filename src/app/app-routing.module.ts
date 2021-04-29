@@ -49,7 +49,7 @@ const routes: Routes = [
     component: AvailableComponent,
     canActivate: [AuthGuard],
     data: {
-      allowedRoles: ["ROLE_CASHIER"]
+      allowedRoles: ["ROLE_CASHIER", "ROLE_ADMIN"]
     },
   },
   {

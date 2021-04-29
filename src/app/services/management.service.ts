@@ -9,7 +9,7 @@ import { catchError, tap, timeout, } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AvailableService {
+export class ManagementService {
 
   private apiUrl;
   private timeOut: number = 30000;
@@ -32,8 +32,8 @@ export class AvailableService {
   }
 
 
-  getAllMenu() {
-    return this.http.get<any>(this.apiUrl + "/api/product", this.httpOptions)
+  getDataHistory() {
+    return this.http.get(this.apiUrl + "/api/getAllDataOrderHistory", this.httpOptions)
       .pipe(
         // tap(usr => {
         // }),
@@ -53,9 +53,31 @@ export class AvailableService {
       )
   }
 
-  getAllMenuLike(obj) {
+  getDataBetween(obj) {
     const authObj = JSON.stringify(obj);
-    return this.http.post<any>(this.apiUrl + "/api/getProductLike", authObj, this.httpOptions)
+    return this.http.post(this.apiUrl + "/api/getAllDataOrderBetween", authObj, this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
+  deleteDataBetween(obj) {
+    const authObj = JSON.stringify(obj);
+    return this.http.post(this.apiUrl + "/api/deleteDataBetween", authObj, this.httpOptions)
       .pipe(
         // tap(usr => {
         // }),
@@ -76,8 +98,9 @@ export class AvailableService {
   }
 
 
-  getAllCategory() {
-    return this.http.get<any>(this.apiUrl + "/api/categoryProduct", this.httpOptions)
+  getDataHistoryPerDay(obj) {
+    const authObj = JSON.stringify(obj);
+    return this.http.post(this.apiUrl + "/api/getAllDataOrderPerDay", authObj, this.httpOptions)
       .pipe(
         // tap(usr => {
         // }),
@@ -96,106 +119,4 @@ export class AvailableService {
         })
       )
   }
-
-  updateProduct(data) {
-    const authObj = JSON.stringify(data);
-    return this.http.post<any>(this.apiUrl + "/api/productAvaliable", authObj, this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-  deleteProduct(data) {
-    const authObj = JSON.stringify(data);
-    return this.http.post<any>(this.apiUrl + "/api/deleteProduct", authObj, this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-  addProduct(data) {
-    const authObj = JSON.stringify(data);
-    return this.http.post<any>(this.apiUrl + "/api/addProduct", authObj, this.httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-  updateAvatar(data) {
-    var headers_object2 = new HttpHeaders()
-      // .set('Content-Type', 'multipart/form-data')
-      .set('x-access-token', this.getToken())
-
-    var httpOptions = {
-      headers: headers_object2
-    };
-
-    const formData: FormData = new FormData();
-    formData.append('image', data.avatar);
-    formData.append('id', data.id);
-    console.log(formData);
-
-    return this.http.post<any>(this.apiUrl + "/api/upload", formData, httpOptions)
-      .pipe(
-        // tap(usr => {
-        // }),
-        timeout(this.timeOut),
-        catchError(e => {
-          if (e.name === "TimeoutError") {
-            // this.showNotification("error", e.message)
-          } else if (e.name === "HttpErrorResponse") {
-            if (e.status == 401) {
-              // this.showNotification("error", e.error.message);
-            } else {
-              // this.showNotification("error", e.message);
-            }
-          }
-          return of(e);
-        })
-      )
-  }
-
-
 }

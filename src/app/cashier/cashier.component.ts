@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ScanOrderComponent } from '../dialog/scan-order/scan-order.component';
 import { CashierService } from '../services/cashier.service';
 import { SocketioService } from '../services/socketio.service';
+import { Howl, Howler } from 'howler';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cashier',
@@ -12,15 +14,25 @@ import { SocketioService } from '../services/socketio.service';
 })
 export class CashierComponent implements OnInit {
 
-  message = "00";
+  message = "01";
   messageList = []
 
   listDataOnOrder;
   listDataOnWaiting;
   listDataOnReady;
 
+  soundOrder = new Howl({
+    src: ['assets/sound/order.mp3']
+  });
+  soundReady = new Howl({
+    src: ['assets/sound/ready.mp3']
+  });
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(private socketService: SocketioService, private cashierService: CashierService, private dialog: MatDialog,
-    private route: Router) {
+    private route: Router, private _snackBar: MatSnackBar) {
     this.getUserInfo()
     this.getDataAll()
   }
@@ -30,15 +42,45 @@ export class CashierComponent implements OnInit {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
-        // console.log(message);
-        this.messageList.push(message);
-        this.getDataAll()
+        console.log(message);
+        if (message == "00") {
+          this.openSnackBar("Orderan baru", "x", 1)
+          this.getDataAll()
+        } if (message == "02") {
+          this.openSnackBar("Pesanan Selesai", "x", 2)
+          this.getDataAll()
+        } else {
+
+        }
       });
   }
 
   send() {
     // console.log(this.message);
     this.socketService.sendMessage(this.message)
+  }
+
+  openSnackBar(message: string, action: string, play: number) {
+
+    switch (play) {
+      case 1:
+        this.soundOrder.play();
+        this._snackBar.open(message, action, {
+          duration: 5000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+        break;
+      case 2:
+        this.soundReady.play();
+        this._snackBar.open(message, action, {
+          duration: 5000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+        break;
+    }
+
   }
 
   getDataAll() {
@@ -102,7 +144,6 @@ export class CashierComponent implements OnInit {
       // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
-        this.send()
       }
     })
   }

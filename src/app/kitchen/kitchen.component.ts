@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { KitchenService } from '../services/kitchen.service';
 import { SocketioService } from '../services/socketio.service';
+import { Howl, Howler } from 'howler';
 
 @Component({
   selector: 'app-kitchen',
@@ -10,14 +12,20 @@ import { SocketioService } from '../services/socketio.service';
 })
 export class KitchenComponent implements OnInit {
 
-  message = "00";
+  message = "02";
   messageList = [];
 
   listDataOnWaiting;
   listDataOnProsses;
 
+  soundReady = new Howl({
+    src: ['assets/sound/ready.mp3']
+  });
 
-  constructor(private socketService: SocketioService, private kitchenService: KitchenService, private route: Router) {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  constructor(private socketService: SocketioService, private kitchenService: KitchenService, private route: Router, private _snackBar: MatSnackBar) {
     this.getUserInfo()
     this.getDataAll()
   }
@@ -27,15 +35,19 @@ export class KitchenComponent implements OnInit {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
+        if (message === "01") {
+          this.getDataAll()
+          this.openSnackBar("Pesanan baru dari kasir", "x")
+        }
         // console.log(message);
-        this.messageList.push(message);
-        this.getDataAll()
+        // this.messageList.push(message);
+
       });
   }
 
-  send() {
+  send(data) {
     // console.log(this.message);
-    this.socketService.sendMessage(this.message)
+    this.socketService.sendMessage(data)
   }
 
   getDataAll() {
@@ -49,6 +61,14 @@ export class KitchenComponent implements OnInit {
     return user.name;
   }
 
+  openSnackBar(message: string, action: string) {
+    this.soundReady.play();
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
   getDataOnWaiting() {
     this.kitchenService.getDataOnWaiting().subscribe(res => {
       // console.log(res);
@@ -67,16 +87,16 @@ export class KitchenComponent implements OnInit {
     })
   }
 
-  doProccess(id, cashier) {
-    // console.log(id, cashier);
+  doProccess(id, kitchen) {
+    // console.log(id, kitchen);
     let obj: any = new Object;
     obj.id = id;
-    obj.cashier = cashier;
+    obj.kitchen = kitchen;
     this.kitchenService.proccessOrder(obj).subscribe(res => {
       // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
-        this.send()
+        this.send("03")
       }
     })
   }
@@ -89,7 +109,7 @@ export class KitchenComponent implements OnInit {
       // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
-        this.send()
+        this.send("02")
       }
     })
   }

@@ -135,6 +135,15 @@
                   </td>
                 </ng-container>
 
+                <ng-container *ngIf="getUserRole()" matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef> Hapus </th>
+                  <td mat-cell *matCellDef="let element; let i = index;" [formGroupName]="i">
+                    <button (click)="deleteMenu(element.value)" mat-button style="width: 100%;">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
