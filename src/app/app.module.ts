@@ -38,6 +38,7 @@ import { ManagementService } from './services/management.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AbsenComponent } from './absen/absen.component';
 
 
 export function playerFactory() {
@@ -59,7 +60,8 @@ export function playerFactory() {
     CategoryPipe,
     AvatarDialogComponent,
     AddDialogComponent,
-    AdminComponent
+    AdminComponent,
+    AbsenComponent
   ],
   imports: [
     BrowserModule,
