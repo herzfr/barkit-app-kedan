@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,7 @@ import { AvatarDialogComponent } from '../dialog/avatar-dialog/avatar-dialog.com
 import { CustomDialogComponent } from '../dialog/custom-dialog/custom-dialog.component';
 import { Product } from '../models/product';
 import { AvailableService } from '../services/available.service';
+declare var $: any;
 
 
 @Component({
@@ -44,8 +45,10 @@ export class AvailableComponent implements OnInit {
   loading = false;
   public loadingTemplate: TemplateRef<any>;
 
+  isDisableDelete = true;
+
   constructor(private availableService: AvailableService, private _formBuilder: FormBuilder, private dialog: MatDialog,
-    private route: Router) {
+    private route: Router, private renderer: Renderer2) {
     this.availableService.getAllCategory().subscribe(res => {
       if (res['codestatus'] === "00") {
         this.categoryl = res['values']
@@ -103,14 +106,16 @@ export class AvailableComponent implements OnInit {
 
   getUserRole() {
     let user = JSON.parse(localStorage.getItem('currentUser'))
-    console.log(user.roles);
+    // console.log(user.roles);
     for (const key in user.roles) {
       if (Object.prototype.hasOwnProperty.call(user.roles, key)) {
         const element = user.roles[key];
         if (element === "ROLE_ADMIN") {
-          return true
+          this.isDisableDelete = false;
+        } else {
+          this.isDisableDelete = true;
         }
-        return false;
+
       }
     }
     // return user.role;
