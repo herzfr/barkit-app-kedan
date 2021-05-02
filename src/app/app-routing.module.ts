@@ -4,6 +4,7 @@ import { AbsenComponent } from './absen/absen.component';
 import { AdminComponent } from './admin/admin.component';
 import { AvailableComponent } from './available/available.component';
 import { CashierComponent } from './cashier/cashier.component';
+import { CheckAbsenComponent } from './check-absen/check-absen.component';
 import { HomeComponent } from './home/home.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { LoginComponent } from './login/login.component';
@@ -27,7 +28,7 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     data: {
-      allowedRoles: ["ROLE_CASHIER", "ROLE_KITCHEN", "ROLE_ADMIN"]
+      allowedRoles: ["ROLE_CASHIER", "ROLE_KITCHEN", "ROLE_ADMIN", "ROLE_USER"]
     },
   },
   {
@@ -76,6 +77,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       allowedRoles: ["ROLE_ADMIN"]
+    },
+  },
+  {
+    path: "check-absen",
+    component: CheckAbsenComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_USER"]
     },
   },
   { path: '404', component: NotfoundComponent },

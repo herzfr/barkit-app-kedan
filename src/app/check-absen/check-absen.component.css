@@ -1,0 +1,49 @@
+.h-general {
+  height: 100%;
+}
+
+.logo-small {
+  width: 40px;
+}
+
+.card-header {
+  background: #ffd400;
+  color: #fff;
+}
+
+.h-body {
+  height: 100vh;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+.display-4 {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.2;
+  padding: 5px;
+  border: 1px solid;
+}
+
+
+.mat-form-field,
+.mat-button {
+  width: 100%;
+}
+
+
+.example-container {
+  width: inherit;
+  height: 500px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+::ng-deep .mat-table tfoot {
+  font-weight: 600;
+}

@@ -1,0 +1,77 @@
+<h1 mat-dialog-title class="text-center">
+  ADD USER
+</h1>
+<div mat-dialog-content class="text-center col-12">
+
+  <form [formGroup]="form" autocomplete="off">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nama</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="name">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="email">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="username">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role" name="role">
+        <mat-option *ngFor="let item of roles" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <form formGroupName="passwords">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput placeholder="Password" formControlName="password">
+        <mat-hint *ngIf="requiredPassword()">Password must be required</mat-hint>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Re Password</mat-label>
+        <input type="password" matInput placeholder="Re Password" formControlName="confirmedPassword">
+        <mat-hint *ngIf="requiredPassword()">Re Password must be required</mat-hint>
+      </mat-form-field>
+
+
+      <!-- <p class="text-warning" *ngIf="requiredPassword()">Password must be required</p> -->
+      <p class="text-danger" *ngIf="passwordMatch()">Password does not match</p>
+    </form>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Masuk</mat-label>
+      <input matInput placeholder="Masuk" formControlName="masuk">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Pulang</mat-label>
+      <input matInput placeholder="Pulang" formControlName="pulang">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+
+
+  </form>
+
+</div>
+<div mat-dialog-actions class="justify-content-between">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSave()">+ Add</button>
+</div>

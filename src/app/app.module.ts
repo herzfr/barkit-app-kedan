@@ -43,6 +43,11 @@ import { AbsenDialogComponent } from './dialog/absen-dialog/absen-dialog.compone
 import { DatePipe } from '@angular/common';
 import { UserComponent } from './user/user.component';
 import { UserService } from './services/user.service';
+import { UpdateUserComponent } from './dialog/update-user/update-user.component';
+import { AddUserComponent } from './dialog/add-user/add-user.component';
+import { PasswordUserComponent } from './dialog/password-user/password-user.component';
+import { CheckAbsenComponent } from './check-absen/check-absen.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 export function playerFactory() {
@@ -67,7 +72,11 @@ export function playerFactory() {
     AdminComponent,
     AbsenComponent,
     AbsenDialogComponent,
-    UserComponent
+    UserComponent,
+    UpdateUserComponent,
+    AddUserComponent,
+    PasswordUserComponent,
+    CheckAbsenComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +94,7 @@ export function playerFactory() {
       secondaryColour: '#ffffff',
       tertiaryColour: '#ffffff'
     }),
-
+    QRCodeModule,
 
     HttpClientModule,
     MatCardModule,

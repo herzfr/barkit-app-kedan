@@ -1,0 +1,15 @@
+<div class="container-fluid h-general p-0">
+  <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
+  <div class="card">
+
+    <div class="card-body h-body">
+      <div class="d-flex h-100 justify-content-center align-items-center">
+
+        <qrcode [qrdata]="dataqr" [size]="256" [level]="'H'" usesvg="false"></qrcode>
+        <button (click)="generateQr()" class="mr-2" mat-raised-button>Generate QR Absen</button>
+        <button (click)="logout()" mat-raised-button>Logout</button>
+
+      </div>
+    </div>
+  </div>
+</div>
