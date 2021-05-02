@@ -4,18 +4,18 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, of, pipe } from 'rxjs';
 import { catchError, tap, timeout, } from 'rxjs/operators';
-import { Login } from '../models/login';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class UserService {
 
   private apiUrl;
   private timeOut: number = 30000;
 
   headers_object = new HttpHeaders()
-    .set('Content-Type', 'application/json')
+    .set('Content-Type', 'application/json; charset=utf-8')
+    .set('x-access-token', this.getToken())
 
   httpOptions = {
     headers: this.headers_object
@@ -25,13 +25,14 @@ export class AuthService {
     this.apiUrl = environment.API_ENDPOINT;
   }
 
+  getToken() {
+    let user = JSON.parse(localStorage.getItem('currentUser'))
+    return user.accessToken;
+  }
 
 
-  signin(data: Login) {
-    // console.log(this.httpOptions)
-    const authObj = JSON.stringify(data);
-    // console.log(authObj);
-    return this.http.post<any>(this.apiUrl + "/api/auth/signin", authObj, this.httpOptions)
+  getAllUser() {
+    return this.http.get<any>(this.apiUrl + "/api/auth/all", this.httpOptions)
       .pipe(
         // tap(usr => {
         // }),
@@ -49,10 +50,6 @@ export class AuthService {
           return of(e);
         })
       )
+
   }
-
-
-
-
-
 }

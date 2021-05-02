@@ -39,6 +39,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AbsenComponent } from './absen/absen.component';
+import { AbsenDialogComponent } from './dialog/absen-dialog/absen-dialog.component';
+import { DatePipe } from '@angular/common';
+import { UserComponent } from './user/user.component';
+import { UserService } from './services/user.service';
 
 
 export function playerFactory() {
@@ -61,7 +65,9 @@ export function playerFactory() {
     AvatarDialogComponent,
     AddDialogComponent,
     AdminComponent,
-    AbsenComponent
+    AbsenComponent,
+    AbsenDialogComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +101,7 @@ export function playerFactory() {
     MatSnackBarModule,
   ],
   entryComponents: [ScanOrderComponent, AvatarDialogComponent],
-  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService, ManagementService],
+  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService, ManagementService, DatePipe, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

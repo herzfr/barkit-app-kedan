@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AbsenComponent } from './absen/absen.component';
 import { AdminComponent } from './admin/admin.component';
 import { AvailableComponent } from './available/available.component';
 import { CashierComponent } from './cashier/cashier.component';
@@ -8,6 +9,7 @@ import { KitchenComponent } from './kitchen/kitchen.component';
 import { LoginComponent } from './login/login.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { AuthGuard } from './services/auth.guard';
+import { UserComponent } from './user/user.component';
 
 
 const routes: Routes = [
@@ -55,6 +57,22 @@ const routes: Routes = [
   {
     path: "management",
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_ADMIN"]
+    },
+  },
+  {
+    path: "management-absen",
+    component: AbsenComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_ADMIN"]
+    },
+  },
+  {
+    path: "management-user",
+    component: UserComponent,
     canActivate: [AuthGuard],
     data: {
       allowedRoles: ["ROLE_ADMIN"]

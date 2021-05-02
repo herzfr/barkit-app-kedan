@@ -1,1 +1,160 @@
-<p>absen works!</p>
+<div class="container-fluid h-general p-0">
+  <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
+  <div class="card">
+    <div class="card-header d-flex">
+      <div
+        class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold text-dark">
+        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt=""> MANAGEMENT / {{ getUserInfo() }}
+      </div>
+      <!-- <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KASIR</div> -->
+      <div class="col-sm-4 d-flex justify-content-center align-items-center font-weight-bold">
+        <button (click)="goToUser()" class="mr-2" mat-raised-button color="warn">
+          <mat-icon>person</mat-icon>USER
+        </button>
+        <button (click)="exportAsExcel()" class="mr-2" mat-raised-button color="warn">
+          <mat-icon>cloud_download</mat-icon>
+        </button>
+      </div>
+      <div class="col-sm-4 justify-content-end h4 m-0 align-items-center d-flex">
+        <button (click)="back()" mat-raised-button color="warn">
+          <mat-icon>arrow_back_ios</mat-icon>Back
+        </button>
+      </div>
+    </div>
+
+
+    <div class="card-body h-body">
+      <div class="row">
+
+        <ng-container *ngIf="isBetween">
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="dp1" [(ngModel)]="startDate" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+              <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>End Date</mat-label>
+              <input matInput (dateChange)="EndDateChange($event)" [matDatepicker]="dp2" [(ngModel)]="endDate" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+              <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isPerDay">
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>Date</mat-label>
+              <input matInput (dateChange)="dateEvent($event)" [matDatepicker]="dp3" [(ngModel)]="dateThis" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </ng-container>
+
+
+        <div *ngIf="isPerDay || isBetween" class="col-sm-1">
+          <button *ngIf="isPerDay" (click)="onDataPerDay()" mat-raised-button class="mb-2 ml-2 p-1">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button *ngIf="isBetween" (click)="searchDataBetween()" mat-raised-button class="mb-2 ml-2 p-1">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field>
+            <mat-label>Select an option</mat-label>
+            <mat-select (selectionChange)="onChange($event)" [(value)]="selected">
+              <mat-option value="1">All</mat-option>
+              <mat-option value="2">Per Day</mat-option>
+              <mat-option value="3">Between</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="d-flex col-12">
+          <div class="example-container mat-elevation-z8" #TABLE>
+            <table mat-table #table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Nama. </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status. </th>
+                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Date. </th>
+                <td mat-cell *matCellDef="let element"> {{ changeDate(element.date) }} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="checkin">
+                <th mat-header-cell *matHeaderCellDef> Masuk. </th>
+                <td mat-cell *matCellDef="let element"> {{element.checkin}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="checkout">
+                <th mat-header-cell *matHeaderCellDef> Pulang. </th>
+                <td mat-cell *matCellDef="let element"> {{element.checkout}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="inlate">
+                <th mat-header-cell *matHeaderCellDef> Terlambat. </th>
+                <td mat-cell *matCellDef="let element"> {{element.inlate}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="inOver">
+                <th mat-header-cell *matHeaderCellDef> Cepat Masuk. </th>
+                <td mat-cell *matCellDef="let element"> {{element.inOver}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="outlate">
+                <th mat-header-cell *matHeaderCellDef> Cepat Pulang. </th>
+                <td mat-cell *matCellDef="let element"> {{element.outlate}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="outOver">
+                <th mat-header-cell *matHeaderCellDef> Lama Pulang. </th>
+                <td mat-cell *matCellDef="let element"> {{element.outOver}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+            </table>
+
+            <button *ngIf="isBetween" (click)="deleteAllBetween()" mat-raised-button class="mb-2 ml-2 p-1">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

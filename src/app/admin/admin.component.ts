@@ -214,6 +214,9 @@ export class AdminComponent implements OnInit {
   }
 
 
+  absenManagement() {
+    this.route.navigate(['management-absen'])
+  }
 
 }
 
