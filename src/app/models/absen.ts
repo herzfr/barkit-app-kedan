@@ -8,6 +8,8 @@ export class Absen {
     inlate: string;
     outlate: string;
     outOver: string;
+    inLatLon: string;
+    outLatLon: string;
     name: string;
     status: string;
     updatedAt: string;

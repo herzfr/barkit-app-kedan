@@ -12,8 +12,10 @@ export class SocketioService {
   constructor() { }
 
   setupSocketConnection() {
-    this.socket = io(environment.SOCKET_ENDPOINT);
-    // console.log(this.socket);
+    this.socket = io("https://api.dcoffeekedan.com", {
+      path: "/api/socket.io/"
+    });
+    console.log(this.socket);
 
   }
 

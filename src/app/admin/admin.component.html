@@ -1,25 +1,28 @@
 <div class="container-fluid h-general p-0">
   <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
   <div class="card">
-    <div class="card-header d-flex">
+    <div class="card-header row">
       <div
         class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold text-dark">
         <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt=""> MANAGEMENT / {{ getUserInfo() }}
       </div>
       <!-- <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">KASIR</div> -->
-      <div class="col-sm-4 d-flex justify-content-center align-items-center font-weight-bold">
-        <button (click)="goTomenu()" class="mr-2" mat-raised-button color="warn">
+      <div class="col-sm justify-content-center align-items-center font-weight-bold">
+        <button (click)="goTomenu()" class="mr-2" mat-flat-button color="accent">
           <mat-icon>checklist_rtl</mat-icon>MENU
         </button>
-        <button (click)="absenManagement()" class="mr-2" mat-raised-button color="warn">
+        <button (click)="absenManagement()" class="mr-2" mat-flat-button color="accent">
           <mat-icon>person_search</mat-icon>ABSEN
         </button>
-        <button (click)="exportAsExcel()" class="mr-2" mat-raised-button color="warn">
+        <button (click)="addsManagement()" class="mr-2" mat-flat-button color="accent">
+          <mat-icon>ads_click</mat-icon>Adds
+        </button>
+        <button (click)="exportAsExcel()" class="mr-2" mat-flat-button color="accent">
           <mat-icon>cloud_download</mat-icon>
         </button>
       </div>
-      <div class="col-sm-4 justify-content-end h4 m-0 align-items-center d-flex">
-        <button (click)="logout()" mat-raised-button color="warn">
+      <div class="col-sm-2 justify-content-end h4 m-0 align-items-center d-flex">
+        <button (click)="logout()" mat-flat-button color="accent">
           <mat-icon>logout</mat-icon>Logout
         </button>
       </div>

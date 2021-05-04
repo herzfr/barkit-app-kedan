@@ -56,7 +56,7 @@ export class AuthGuard implements CanActivate {
       }
 
       return this.router.createUrlTree(
-        ['404']
+        ['']
       );
 
     }

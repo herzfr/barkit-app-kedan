@@ -43,7 +43,7 @@ export class AvailableComponent implements OnInit {
   allDataMenu: any;
 
   loading = false;
-  public loadingTemplate: TemplateRef<any>;
+  loadingTemplate: TemplateRef<any>;
 
   isDisableDelete = true;
 
@@ -176,10 +176,12 @@ export class AvailableComponent implements OnInit {
 
   updateData() {
     // console.log(this.form.get('formProd').value);
+    this.loading = true;
     this.availableService.updateProduct(this.form.get('formProd').value).subscribe(res => {
       if (res['codestatus'] == "00") {
         this.initFormArray()
         this.getAllMenu("")
+        this.loading = false;
         this.customDialog("check_circle", res['message'])
       } else {
         this.customDialog("sms_failed", "Data Failed")
@@ -188,7 +190,7 @@ export class AvailableComponent implements OnInit {
   }
 
   updateAvatar(event) {
-    console.log(event);
+    // console.log(event);
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = event;
@@ -209,10 +211,12 @@ export class AvailableComponent implements OnInit {
   }
 
   changeAvatar(obj) {
+    this.loading = true;
     this.availableService.updateAvatar(obj).subscribe(res => {
       if (res['codestatus'] == "00") {
         this.initFormArray()
         this.getAllMenu("")
+        this.loading = false;
         this.customDialog("check_circle", res['message'])
       } else {
         this.customDialog("sms_failed", "Data Failed")
@@ -233,9 +237,13 @@ export class AvailableComponent implements OnInit {
     dialogCustom.afterClosed().subscribe(res => {
       // console.log(res);
       if (res !== undefined) {
+        this.loading = true;
         this.availableService.addProduct(res).subscribe(resp => {
           if (resp['codestatus'] == "00") {
             // console.log(resp);
+            this.initFormArray()
+            this.getAllMenu("")
+            this.loading = false;
             this.customDialog("check_circle", resp['message'])
           } else {
             this.customDialog("sms_failed", "Data Failed")
@@ -273,8 +281,12 @@ export class AvailableComponent implements OnInit {
       if (this.i == 2) {
         let obj: any = new Object();
         obj.id = event.id;
+        this.loading = true;
         this.availableService.deleteProduct(obj).subscribe(res => {
           if (res['codestatus'] == "00") {
+            this.initFormArray()
+            this.getAllMenu("")
+            this.loading = false;
             // console.log(res);
             this.customDialog("check_circle", res['message'])
           } else {

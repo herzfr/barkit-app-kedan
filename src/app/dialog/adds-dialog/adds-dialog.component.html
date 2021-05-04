@@ -1,0 +1,24 @@
+<h1 mat-dialog-title class="text-center">Add Ads</h1>
+<div mat-dialog-content class="text-center">
+
+  <img class="img-dish" src="{{ avatar }}" alt="" style="width: 100%;">
+  <!-- <p>{{userID }}</p> -->
+  <div class="row justify-content-center mt-3">
+    <!-- <input type="file" name="profile" (change)="onFileSelect($event)" /> -->
+    <label for="custom-file-upload" class="filupp">
+      <span class="filupp-file-name js-value">Browse Files</span>
+      <input type="file" name="attachment-file" value="1" id="custom-file-upload" (change)="onFileSelect($event)" />
+    </label>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Masukan Judul" [(ngModel)]="title">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+  </div>
+
+  <div class="row justify-content-center mt-3">
+    <button (click)="uploadAvatar()" mat-button>Upload</button>
+    <button (click)="cancelUploaded()" mat-button>Cancel</button>
+  </div>

@@ -13,7 +13,6 @@ import { KitchenComponent } from './kitchen/kitchen.component';
 import { CashierComponent } from './cashier/cashier.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
-import { NotfoundComponent } from './notfound/notfound.component';
 import { CashierService } from './services/cashier.service';
 import { KitchenService } from './services/kitchen.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -48,6 +47,10 @@ import { AddUserComponent } from './dialog/add-user/add-user.component';
 import { PasswordUserComponent } from './dialog/password-user/password-user.component';
 import { CheckAbsenComponent } from './check-absen/check-absen.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AddsComponent } from './adds/adds.component';
+import { AddsService } from './services/adds.service';
+import { AddsDialogComponent } from './dialog/adds-dialog/adds-dialog.component';
 
 
 export function playerFactory() {
@@ -62,7 +65,6 @@ export function playerFactory() {
     KitchenComponent,
     CashierComponent,
     LoginComponent,
-    NotfoundComponent,
     ScanOrderComponent,
     CustomDialogComponent,
     AvailableComponent,
@@ -76,7 +78,9 @@ export function playerFactory() {
     UpdateUserComponent,
     AddUserComponent,
     PasswordUserComponent,
-    CheckAbsenComponent
+    CheckAbsenComponent,
+    AddsComponent,
+    AddsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +99,7 @@ export function playerFactory() {
       tertiaryColour: '#ffffff'
     }),
     QRCodeModule,
+    LeafletModule,
 
     HttpClientModule,
     MatCardModule,
@@ -110,7 +115,8 @@ export function playerFactory() {
     MatSnackBarModule,
   ],
   entryComponents: [ScanOrderComponent, AvatarDialogComponent],
-  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService, ManagementService, DatePipe, UserService],
+  providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService,
+    ManagementService, DatePipe, UserService, AddsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

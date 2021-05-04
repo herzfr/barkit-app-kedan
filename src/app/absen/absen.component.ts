@@ -7,6 +7,12 @@ import { Absen } from '../models/absen';
 import { AbsenService } from '../services/absen.service';
 import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
+import {
+  toLatLon, toLatitudeLongitude, headingDistanceTo, moveTo, insidePolygon
+} from 'geolocation-utils'
+import { Icon } from "leaflet";
+import * as L from 'leaflet'
+import { latLng, tileLayer, Marker } from "leaflet";
 
 @Component({
   selector: 'app-absen',
@@ -25,10 +31,29 @@ export class AbsenComponent implements OnInit {
   isPerDay: Boolean;
   isBetween: Boolean;
 
-  displayedColumns = ['name', 'status', 'date', 'checkin', 'checkout', 'inlate', 'inOver', 'outlate', 'outOver'];
+  displayedColumns = ['name', 'status', 'date', 'checkin', 'checkout', 'inlate', 'inOver', 'outlate', 'outOver', 'inLatLon', 'outLatLon'];
   dataSource: MatTableDataSource<Absen>;
 
   allTotal: number = 0;
+
+  // LAYER_OSM = {
+  //   id: 'openstreetmap',
+  //   name: 'Open Street Map',
+  //   enabled: false,
+  //   layer: L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWRkeTJlbmFtIiwiYSI6ImNqZGI5ZGw1bjUzeXkyd3M2d2owMDJmeXAifQ.2694zHwfWLWCOCRSpB7xUw', {
+  //     maxZoom: 16,
+  //     attribution: 'Open Street Map'
+  //   })
+  // };
+
+  // layersControlOptions = { position: 'topright' };
+  // baseLayers = {
+  //   'Open Street MapBox': this.LAYER_OSM.layer,
+  // };
+
+  markers;
+
+
 
   constructor(private route: Router, private absenService: AbsenService, private dialog: MatDialog, private datePipe: DatePipe) {
     this.getUserInfo()
@@ -94,6 +119,51 @@ export class AbsenComponent implements OnInit {
   dateEvent(event) {
     // console.log(event);
     this.onDataPerDay()
+  }
+
+
+  getMarker(event) {
+    var mark = []
+    const location2 = JSON.parse(event);
+
+    var blueIcon: L.Icon = new Icon({
+      iconSize: [25, 41],
+      iconAnchor: [13, 41],
+      iconUrl: 'assets/images/marker.png',
+      shadowUrl: 'assets/images/marker.png',
+    });
+
+
+    var marker = L.marker([location2.lat, location2.lon], { icon: blueIcon });
+    mark.push(marker)
+    return mark;
+  }
+
+
+  convertLatLon(event) {
+    // console.log(JSON.parse(event));
+    // https://www.npmjs.com/package/geolocation-utils
+    // const location1 = { lat: 3.5951956000000003, lon: 98.6722227 }  // meters
+    const location2 = JSON.parse(event); // Location A
+    // console.log(headingDistanceTo(location1, location2))
+    // var headDisc = headingDistanceTo(location1, location2)
+
+    var options = {
+      layers: [
+        tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWRkeTJlbmFtIiwiYSI6ImNqZGI5ZGw1bjUzeXkyd3M2d2owMDJmeXAifQ.2694zHwfWLWCOCRSpB7xUw', {
+          maxZoom: 16,
+          attribution: 'Coffee Kedan'
+        })
+      ],
+      zoom: 16,
+      zoomControl: false,
+      center: latLng([location2.lat, location2.lon])
+    };
+    return options;
+  }
+
+  getRadius() {
+
   }
 
   onDataPerDay() {

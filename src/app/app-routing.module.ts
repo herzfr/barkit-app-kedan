@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AbsenComponent } from './absen/absen.component';
+import { AddsComponent } from './adds/adds.component';
 import { AdminComponent } from './admin/admin.component';
 import { AvailableComponent } from './available/available.component';
 import { CashierComponent } from './cashier/cashier.component';
@@ -8,7 +9,6 @@ import { CheckAbsenComponent } from './check-absen/check-absen.component';
 import { HomeComponent } from './home/home.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { LoginComponent } from './login/login.component';
-import { NotfoundComponent } from './notfound/notfound.component';
 import { AuthGuard } from './services/auth.guard';
 import { UserComponent } from './user/user.component';
 
@@ -80,6 +80,14 @@ const routes: Routes = [
     },
   },
   {
+    path: "management-adds",
+    component: AddsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_ADMIN"]
+    },
+  },
+  {
     path: "check-absen",
     component: CheckAbsenComponent,
     canActivate: [AuthGuard],
@@ -87,7 +95,6 @@ const routes: Routes = [
       allowedRoles: ["ROLE_USER"]
     },
   },
-  { path: '404', component: NotfoundComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

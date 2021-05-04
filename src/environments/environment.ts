@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  SOCKET_ENDPOINT: 'http://192.168.100.16:8080',
-  API_ENDPOINT: 'http://192.168.100.16:8080'
+  SOCKET_ENDPOINT: 'https://api.dcoffeekedan.com/api/',
+  API_ENDPOINT: 'https://api.dcoffeekedan.com'
 };
 
 /*

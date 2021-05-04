@@ -44,11 +44,11 @@ export class CashierComponent implements OnInit {
       .subscribe((message: string) => {
         console.log(message);
         if (message == "00") {
+          this.getDataAll()
           this.openSnackBar("Orderan baru", "x", 1)
-          this.getDataAll()
         } if (message == "02") {
-          this.openSnackBar("Pesanan Selesai", "x", 2)
           this.getDataAll()
+          this.openSnackBar("Pesanan Selesai", "x", 2)
         } else {
 
         }
