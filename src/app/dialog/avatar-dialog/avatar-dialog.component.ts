@@ -35,9 +35,9 @@ export class AvatarDialogComponent implements OnInit {
   }
 
   onFileSelect(event) {
-    console.log(event);
+    // console.log(event);
     this.fileList = event.target.files;
-    console.log(this.fileList);
+    // console.log(this.fileList);
   }
 
 
@@ -52,8 +52,8 @@ export class AvatarDialogComponent implements OnInit {
         // const reader = new FileReader();
         // reader.readAsDataURL(file);
         // reader.onloadend = () => {
-        //   console.log(reader);
-        //   console.log(file);
+        //   // console.log(reader);
+        //   // console.log(file);
         //   let base64: string = reader.result.toString();
         //   let base64String = base64.replace(/^data:image\/[a-z]+;base64,/, "");
         // };

@@ -15,7 +15,7 @@ export class SocketioService {
     this.socket = io("https://api.dcoffeekedan.com", {
       path: "/api/socket.io/"
     });
-    console.log(this.socket);
+    // console.log(this.socket);
 
   }
 

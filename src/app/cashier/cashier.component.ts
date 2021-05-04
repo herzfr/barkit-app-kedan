@@ -42,7 +42,7 @@ export class CashierComponent implements OnInit {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
-        console.log(message);
+        // console.log(message);
         if (message == "00") {
           this.getDataAll()
           this.openSnackBar("Orderan baru", "x", 1)
@@ -56,7 +56,7 @@ export class CashierComponent implements OnInit {
   }
 
   send() {
-    // console.log(this.message);
+    // // console.log(this.message);
     this.socketService.sendMessage(this.message)
   }
 
@@ -96,7 +96,7 @@ export class CashierComponent implements OnInit {
 
   getDataOnOrder() {
     this.cashierService.getDataOnOrder().subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnOrder = res['values']
       }
@@ -105,7 +105,7 @@ export class CashierComponent implements OnInit {
 
   getDataOnWaiting() {
     this.cashierService.getDataOnWaiting().subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnWaiting = res['values']
       }
@@ -114,7 +114,7 @@ export class CashierComponent implements OnInit {
 
   getDataOnReady() {
     this.cashierService.getDataOnReady().subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnReady = res['values']
       }
@@ -123,12 +123,12 @@ export class CashierComponent implements OnInit {
 
 
   doApprove(id, cashier) {
-    // console.log(id, cashier);
+    // // console.log(id, cashier);
     let obj: any = new Object;
     obj.id = id;
     obj.cashier = cashier;
     this.cashierService.approveOrder(obj).subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
         this.send()
@@ -137,11 +137,11 @@ export class CashierComponent implements OnInit {
   }
 
   done(id) {
-    // console.log(id);
+    // // console.log(id);
     let obj: any = new Object;
     obj.id = id;
     this.cashierService.doneOrder(obj).subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
       }
@@ -163,7 +163,7 @@ export class CashierComponent implements OnInit {
     dialogScanQR.afterClosed().subscribe(res => {
       if (res !== undefined) {
         let dataScan = JSON.parse(res)
-        // console.log(dataScan);
+        // // console.log(dataScan);
         this.cashierService.sendOrder(dataScan).subscribe(res => {
           if (res['codestatus'] === "00") {
             this.getDataAll()
@@ -182,7 +182,7 @@ export class CashierComponent implements OnInit {
     let obj: any = new Object;
     obj.id = id;
     this.cashierService.doneOrder(obj).subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
         this.send()

@@ -64,7 +64,7 @@ export class AddsService {
     const formData: FormData = new FormData();
     formData.append('image', data.avatar);
     formData.append('title', data.title);
-    console.log(formData);
+    // console.log(formData);
 
     return this.http.post<any>(this.apiUrl + "/api/adds/insert", formData, httpOptions)
       .pipe(

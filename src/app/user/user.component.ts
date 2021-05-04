@@ -34,7 +34,7 @@ export class UserComponent implements OnInit {
   getAllDataUser() {
     this.userServices.getAllUser().subscribe(res => {
       if (res['codestatus'] == "00") {
-        // console.log(res['values']);
+        // // console.log(res['values']);
         this.dataSource = new MatTableDataSource(
           res['values']
         );
@@ -53,11 +53,11 @@ export class UserComponent implements OnInit {
       dialogConfig
     );
     dialogCustom.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res !== undefined) {
         this.userServices.signup(res).subscribe(resp => {
           if (resp['codestatus'] == "00") {
-            // console.log(resp);
+            // // console.log(resp);
             this.getAllDataUser()
             this.customDialog("check_circle", resp['message'])
           } else {
@@ -69,7 +69,7 @@ export class UserComponent implements OnInit {
   }
 
   updateData(event) {
-    // console.log(event);
+    // // console.log(event);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = event;
     dialogConfig.backdropClass = "backdropBackground";
@@ -81,11 +81,11 @@ export class UserComponent implements OnInit {
       dialogConfig
     );
     dialogCustom.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res !== undefined) {
         this.userServices.update(res).subscribe(resp => {
           if (resp['codestatus'] == "00") {
-            // console.log(resp);
+            // // console.log(resp);
             this.getAllDataUser()
             this.customDialog("check_circle", resp['message'])
           } else {
@@ -97,7 +97,7 @@ export class UserComponent implements OnInit {
   }
 
   updatePass(event) {
-    // console.log(event);
+    // // console.log(event);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = event.username;
     dialogConfig.backdropClass = "backdropBackground";
@@ -109,11 +109,11 @@ export class UserComponent implements OnInit {
       dialogConfig
     );
     dialogCustom.afterClosed().subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       if (res !== undefined) {
         this.userServices.updatePass(res).subscribe(resp => {
           if (resp['codestatus'] == "00") {
-            // console.log(resp);
+            // // console.log(resp);
             this.getAllDataUser()
             this.customDialog("check_circle", resp['message'])
           } else {
@@ -129,7 +129,7 @@ export class UserComponent implements OnInit {
     obj.id = event.id;
     this.userServices.delete(obj).subscribe(resp => {
       if (resp['codestatus'] == "00") {
-        // console.log(resp);
+        // // console.log(resp);
         this.getAllDataUser()
         this.customDialog("check_circle", resp['message'])
       } else {

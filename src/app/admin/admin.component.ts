@@ -76,7 +76,7 @@ export class AdminComponent implements OnInit {
   getDataAll() {
     this.managementService.getDataHistory().subscribe(res => {
       if (res['codestatus'] == "00") {
-        console.log(res['values']);
+        // console.log(res['values']);
         this.dataSource = new MatTableDataSource(
           res['values']
         );
@@ -93,7 +93,7 @@ export class AdminComponent implements OnInit {
       obj.end = this.endDate;
       this.managementService.getDataBetween(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );
@@ -104,7 +104,7 @@ export class AdminComponent implements OnInit {
   }
 
   dateEvent(event) {
-    // console.log(event);
+    // // console.log(event);
     this.onDataPerDay()
   }
 
@@ -114,7 +114,7 @@ export class AdminComponent implements OnInit {
       obj.date = this.dateThis;
       this.managementService.getDataHistoryPerDay(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );
@@ -126,9 +126,9 @@ export class AdminComponent implements OnInit {
 
   getDataTotal() {
     this.allTotal = 0;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
     this.dataSource.data.forEach(el => {
-      // console.log(el.total);
+      // // console.log(el.total);
       var y: number = + el.total;
       this.allTotal = this.allTotal + y;
     })
@@ -136,7 +136,7 @@ export class AdminComponent implements OnInit {
   }
 
   onChange(event) {
-    // console.log(event);
+    // // console.log(event);
     this.selected = event.value;
     switch (this.selected) {
       case '1':
@@ -153,7 +153,7 @@ export class AdminComponent implements OnInit {
   }
 
   EndDateChange(event) {
-    console.log(event.value);
+    // console.log(event.value);
     this.searchDataBetween()
   }
 
@@ -179,7 +179,7 @@ export class AdminComponent implements OnInit {
       obj.end = this.endDate;
       this.managementService.deleteDataBetween(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );

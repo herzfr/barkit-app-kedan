@@ -83,7 +83,7 @@ export class AddUserComponent implements OnInit {
       this.user.roles = this.form.controls['role'].value
       this.user.masuk = this.form.controls['masuk'].value
       this.user.pulang = this.form.controls['pulang'].value
-      console.log(this.user);
+      // console.log(this.user);
       this.dialogRef.close(this.user)
     } else {
       alert('Data ada yang tidak terisi atau tidak cocok')

@@ -50,16 +50,16 @@ export class AddsComponent implements OnInit {
   }
 
   init(event) {
-    // console.log(event);
+    // // console.log(event);
     let orderFormGroup: FormGroup = new FormGroup({})
     for (const key in event) {
       if (event.hasOwnProperty(key)) {
         const el = event[key];
-        // console.log(key, el);
+        // // console.log(key, el);
         orderFormGroup.addControl(key, new FormControl(el, Validators.required))
       }
     }
-    // console.log(orderFormGroup);
+    // // console.log(orderFormGroup);
     return orderFormGroup;
   }
 
@@ -71,17 +71,17 @@ export class AddsComponent implements OnInit {
   getAllAdds() {
     this.loading = true;
     this.addServ.getAllAdds().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] == "00") {
         this.allDataMenu = res['values']
-        // console.log(this.form);
+        // // console.log(this.form);
         for (const key in this.allDataMenu) {
           if (this.allDataMenu.hasOwnProperty(key)) {
             const element = this.allDataMenu[key];
             this.addItem(element)
           }
         }
-        // console.log(this.allDataMenu.length > 0);
+        // // console.log(this.allDataMenu.length > 0);
         if (this.allDataMenu.length > 0) this.updateView();
         this.loading = false;
         // this.updateView()
@@ -115,7 +115,7 @@ export class AddsComponent implements OnInit {
     );
 
     dialogAdd.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res != undefined) {
         this.loading = true;
         this.addServ.addAds(res).subscribe(res => {
@@ -134,7 +134,7 @@ export class AddsComponent implements OnInit {
   }
 
   tayangAds() {
-    // console.log(this.form.get('formProd').value);
+    // // console.log(this.form.get('formProd').value);
     this.loading = true;
     this.addServ.updateShow(this.form.get('formProd').value).subscribe(res => {
       if (res['codestatus'] == "00") {
@@ -154,7 +154,7 @@ export class AddsComponent implements OnInit {
     obj.id = event.id;
     this.addServ.deleteAds(obj).subscribe(res => {
       if (res['codestatus'] == "00") {
-        // console.log(res);
+        // // console.log(res);
         this.initFormArray()
         this.getAllAdds()
         this.loading = false;

@@ -30,9 +30,9 @@ export class AddsDialogComponent implements OnInit {
   }
 
   onFileSelect(event) {
-    console.log(event);
+    // console.log(event);
     this.fileList = event.target.files;
-    console.log(this.fileList);
+    // console.log(this.fileList);
   }
 
 

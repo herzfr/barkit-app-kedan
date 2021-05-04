@@ -91,7 +91,7 @@ export class AbsenComponent implements OnInit {
   getDataAll() {
     this.absenService.getDataAbsenHistory().subscribe(res => {
       if (res['codestatus'] == "00") {
-        console.log(res['values']);
+        // console.log(res['values']);
         this.dataSource = new MatTableDataSource(
           res['values']
         );
@@ -107,7 +107,7 @@ export class AbsenComponent implements OnInit {
       obj.end = this.endDate;
       this.absenService.getDataAbsenBetween(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );
@@ -117,7 +117,7 @@ export class AbsenComponent implements OnInit {
   }
 
   dateEvent(event) {
-    // console.log(event);
+    // // console.log(event);
     this.onDataPerDay()
   }
 
@@ -141,11 +141,11 @@ export class AbsenComponent implements OnInit {
 
 
   convertLatLon(event) {
-    // console.log(JSON.parse(event));
+    // // console.log(JSON.parse(event));
     // https://www.npmjs.com/package/geolocation-utils
     // const location1 = { lat: 3.5951956000000003, lon: 98.6722227 }  // meters
     const location2 = JSON.parse(event); // Location A
-    // console.log(headingDistanceTo(location1, location2))
+    // // console.log(headingDistanceTo(location1, location2))
     // var headDisc = headingDistanceTo(location1, location2)
 
     var options = {
@@ -173,7 +173,7 @@ export class AbsenComponent implements OnInit {
       obj.date = day;
       this.absenService.getDataAbsenHistoryPerDay(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );
@@ -190,7 +190,7 @@ export class AbsenComponent implements OnInit {
   }
 
   onChange(event) {
-    // console.log(event);
+    // // console.log(event);
     this.selected = event.value;
     switch (this.selected) {
       case '1':
@@ -207,7 +207,7 @@ export class AbsenComponent implements OnInit {
   }
 
   EndDateChange(event) {
-    console.log(event.value);
+    // console.log(event.value);
     this.searchDataBetween()
   }
 
@@ -233,7 +233,7 @@ export class AbsenComponent implements OnInit {
       obj.end = this.endDate;
       this.absenService.deleteDataAbsenBetween(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );
