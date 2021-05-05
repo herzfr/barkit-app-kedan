@@ -29,24 +29,70 @@
 
           <div class="display-4 text-center mb-1 order">ORDER</div>
           <div class="on-order">
-            <ng-container *ngFor="let list of listDataOnOrder; let i = index;">
-              <mat-card class="list-card border-primary mb-1">
-                <div class="row item-order ">
-                  <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}</h3>
-                  <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
-                  <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
-                  <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
-                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
-                  <div class="d-flex col-12 p-0">
-                    <h4 class="col-6 mb-0 text-left p-0"><span class="font-weight-bold"> Total :</span> Rp
-                      {{ list.total | number: '1.0-0'  }}</h4>
-                    <button class="mr-1 btn-color" (click)="rejectOrder(list.id)" mat-raised-button>Reject</button>
-                    <button (click)="doApprove(list.id, getUserInfo())" mat-raised-button
-                      color="accent">Aprrove</button>
-                  </div>
-                </div>
-              </mat-card>
-            </ng-container>
+
+            <form [formGroup]="form" autocomplete="off">
+              <ng-container formArrayName="formProd">
+
+                <ng-container *ngFor="let item of formProd.controls; let i = index;">
+                  <mat-card class="list-card border-primary mb-1">
+                    <div class="row item-order" [formGroupName]="i">
+                      <h3 *ngIf="item.get('meja').value !== 0" class="col-6 mb-0">Meja : {{ item.get('meja').value }}
+                      </h3>
+                      <h3 *ngIf="item.get('meja').value === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
+                      <h3 class="col-6  mb-0 text-right">{{ item.get('nama').value }}</h3>
+                      <div class="d-flex p-0 w-100 mb-1">
+                        <mat-form-field class="col-sm px-2" appearance="outline">
+                          <mat-label>Note</mat-label>
+                          <input matInput placeholder="Order ID" formControlName="desc">
+                        </mat-form-field>
+                      </div>
+                      <textarea class="text-menu" name='awesome' formControlName="menu"></textarea>
+                      <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
+                        <span class="font-weight-bold text-left"> Total :</span>
+                        <span class="font-weight-normal text-left">Rp
+                          {{ item.get('total').value | number: '1.0-0'  }}</span>
+                      </div>
+                      <div class="d-flex col-12 p-0">
+                        <div class="col-sm mb-0 text-left p-1">
+                          <!-- <span class="font-weight-bold"> Discount :</span> -->
+                          <mat-form-field appearance="outline">
+                            <mat-label>Discount</mat-label>
+                            <mat-select formControlName="discount" name="discount"
+                              (selectionChange)="discountChange(i)">
+                              <mat-option *ngFor="let item of discountlist" [value]="item.value">
+                                {{item.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Grand Total :</span>
+                        <span class="font-weight-normal text-left">Rp {{ grandTotal(i) | number:
+                          '1.0-0' }}</span>
+                      </div>
+                      <div class="d-flex p-0 w-100 mb-1">
+                        <mat-form-field class="col-sm-7 p-0" appearance="outline">
+                          <mat-label>Order Id</mat-label>
+                          <input matInput placeholder="Order ID" formControlName="order_id">
+                          <mat-icon (click)="getRandomString(i)" matSuffix>verified</mat-icon>
+                        </mat-form-field>
+                        <p class="col-sm p-info">
+                          Tekan tanda centang untuk generate order Id
+                        </p>
+                      </div>
+                      <div class="d-flex p-0 w-100 justify-content-between">
+                        <button class="mr-1 btn-color" (click)="rejectOrder(item.get('id').value)"
+                          mat-raised-button>Reject</button>
+                        <button (click)="doApprove(i, getUserInfo())" mat-raised-button color="accent">Aprrove</button>
+                      </div>
+                    </div>
+                  </mat-card>
+                </ng-container>
+
+              </ng-container>
+            </form>
+
           </div>
 
 
@@ -59,15 +105,26 @@
             <ng-container *ngFor="let list of listDataOnWaiting; let i = index;">
               <mat-card class="list-card border-primary mb-1">
                 <div class="row item-order ">
-                  <h3 class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                  <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
+                  <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}</h3>
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
                   <hr>
                   <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
                   <hr>
+                  <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
+                    <span class="font-weight-bold text-left"> Total :</span>
+                    <span class="font-weight-normal text-left">Rp
+                      {{ list.total | number: '1.0-0'  }}</span>
+                  </div>
+                  <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+                    <span class="font-weight-bold text-left"> Diskon :</span>
+                    <span class="font-weight-normal text-left">
+                      {{ list.discount }}%</span>
+                  </div>
                   <div class="d-flex col-12 p-0">
-                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Total :</span> Rp
-                      {{ list.total | number: '1.0-0'  }}</h4>
+                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Grand Total :</span> Rp
+                      {{ list.grandtotal | number: '1.0-0'  }}</h4>
                     <div class="bounce-anim d-flex"><span class="pr">Waiting</span>
                       <ul class="p-0">
                         <li></li>
@@ -90,16 +147,27 @@
             <ng-container *ngFor="let list of listDataOnReady; let i = index;">
               <mat-card class="list-card border-primary mb-1">
                 <div class="row item-order ">
-                  <h3 class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                  <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
+                  <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}</h3>
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
                   <hr>
                   <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
                   <hr>
-                  <div class="d-flex col-12 p-0">
-                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Total :</span> Rp
-                      {{ list.total | number: '1.0-0'  }}</h4>
-                    <button (click)="done(list.id)" mat-raised-button>Done</button>
+                  <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
+                    <span class="font-weight-bold text-left"> Total :</span>
+                    <span class="font-weight-normal text-left">Rp
+                      {{ list.total | number: '1.0-0'  }}</span>
+                  </div>
+                  <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+                    <span class="font-weight-bold text-left"> Diskon :</span>
+                    <span class="font-weight-normal text-left">
+                      {{ list.discount }}%</span>
+                  </div>
+                  <div class="d-flex w-100 align-items-center p-0">
+                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Grand Total :</span> Rp
+                      {{ list.grandtotal | number: '1.0-0'  }}</h4>
+                    <button class="col-sm" (click)="done(list.id)" mat-raised-button>Done</button>
                   </div>
                 </div>
               </mat-card>
@@ -113,7 +181,7 @@
   </div>
 
 </div>
-<mat-form-field>
+<!-- <mat-form-field>
   <mat-label>Message</mat-label>
   <input matInput value="Disco party!" #message>
 </mat-form-field>
@@ -121,4 +189,4 @@
 <mat-form-field>
   <mat-label>Action</mat-label>
   <input matInput value="Dance" #action>
-</mat-form-field>
+</mat-form-field> -->

@@ -31,10 +31,11 @@ export class AdminComponent implements OnInit {
   isBetween: Boolean;
 
 
-  displayedColumns = ['meja', 'nama', 'menu', 'desc', 'onreserve', 'onprosses', 'onready', 'cashier', 'kitchen', 'total'];
+  displayedColumns = ['meja', 'nama', 'menu', 'desc', 'onreserve', 'onprosses', 'onready', 'cashier', 'kitchen', 'total', 'discount', 'grandtotal'];
   dataSource: MatTableDataSource<Order>;
 
   allTotal: number = 0;
+  allGrandTotal: number = 0;
 
   constructor(private route: Router, private managementService: ManagementService, private dialog: MatDialog) {
     this.getUserInfo()
@@ -130,7 +131,9 @@ export class AdminComponent implements OnInit {
     this.dataSource.data.forEach(el => {
       // // console.log(el.total);
       var y: number = + el.total;
+      var x: number = + el.grandtotal;
       this.allTotal = this.allTotal + y;
+      this.allGrandTotal = this.allGrandTotal + x;
     })
 
   }

@@ -51,6 +51,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AddsComponent } from './adds/adds.component';
 import { AddsService } from './services/adds.service';
 import { AddsDialogComponent } from './dialog/adds-dialog/adds-dialog.component';
+import { WhatsappIntegratedComponent } from './dialog/whatsapp-integrated/whatsapp-integrated.component';
+import { WhatsappService } from './services/whatsapp.service';
 
 
 export function playerFactory() {
@@ -80,7 +82,8 @@ export function playerFactory() {
     PasswordUserComponent,
     CheckAbsenComponent,
     AddsComponent,
-    AddsDialogComponent
+    AddsDialogComponent,
+    WhatsappIntegratedComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +119,7 @@ export function playerFactory() {
   ],
   entryComponents: [ScanOrderComponent, AvatarDialogComponent],
   providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService,
-    ManagementService, DatePipe, UserService, AddsService],
+    ManagementService, DatePipe, UserService, AddsService, WhatsappService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

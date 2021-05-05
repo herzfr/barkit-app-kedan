@@ -47,3 +47,10 @@ table {
 ::ng-deep .mat-table tfoot {
   font-weight: 600;
 }
+
+
+::ng-deep .cdk-column-device {
+  padding: 10px !important;
+  max-width: 200px;
+  overflow: auto;
+}

@@ -1,0 +1,11 @@
+<h1 mat-dialog-title class="text-center">
+  <mat-icon>qr_code_scanner</mat-icon>
+</h1>
+<div mat-dialog-content class="text-center">
+  <qrcode [qrdata]="dataqr" [size]="256" [level]="'H'" usesvg="false"></qrcode>
+  <p class="h6">Please wait, Connecting...</p>
+</div>
+<h5 class="font-weight-light text-success text-center">Scan Qr Code</h5>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

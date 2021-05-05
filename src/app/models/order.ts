@@ -9,4 +9,6 @@ export class Order {
     cashier: string;
     kitchen: string;
     total: string;
+    discount: string;
+    grandtotal: string;
 }

@@ -31,7 +31,19 @@ export class AbsenComponent implements OnInit {
   isPerDay: Boolean;
   isBetween: Boolean;
 
-  displayedColumns = ['name', 'status', 'date', 'checkin', 'checkout', 'inlate', 'inOver', 'outlate', 'outOver', 'inLatLon', 'outLatLon'];
+  displayedColumns = [
+    'name',
+    'device',
+    // 'status',
+    'date',
+    'checkin',
+    'checkout',
+    'inlate',
+    'inOver',
+    'outlate',
+    'outOver',
+    'inLatLon',
+    'outLatLon'];
   dataSource: MatTableDataSource<Absen>;
 
   allTotal: number = 0;
@@ -91,7 +103,7 @@ export class AbsenComponent implements OnInit {
   getDataAll() {
     this.absenService.getDataAbsenHistory().subscribe(res => {
       if (res['codestatus'] == "00") {
-        // console.log(res['values']);
+        console.log(res['values']);
         this.dataSource = new MatTableDataSource(
           res['values']
         );
@@ -122,6 +134,8 @@ export class AbsenComponent implements OnInit {
   }
 
 
+
+
   getMarker(event) {
     var mark = []
     const location2 = JSON.parse(event);
@@ -133,21 +147,29 @@ export class AbsenComponent implements OnInit {
       shadowUrl: 'assets/images/marker.png',
     });
 
+    var questionIcon: L.Icon = new Icon({
+      iconSize: [41, 41],
+      iconAnchor: [13, 41],
+      iconUrl: 'assets/images/question_mark.png',
+      shadowUrl: 'assets/images/question_mark.png',
+    });
 
-    var marker = L.marker([location2.lat, location2.lon], { icon: blueIcon });
-    mark.push(marker)
+    if (location2 != null) {
+      var marker = L.marker([location2.lat, location2.lon], { icon: blueIcon });
+      mark.push(marker)
+    } else {
+      var marker = L.marker([0.000000, 0.000000], { icon: questionIcon });
+      mark.push(marker)
+    }
+
     return mark;
   }
 
 
   convertLatLon(event) {
-    // // console.log(JSON.parse(event));
     // https://www.npmjs.com/package/geolocation-utils
     // const location1 = { lat: 3.5951956000000003, lon: 98.6722227 }  // meters
     const location2 = JSON.parse(event); // Location A
-    // // console.log(headingDistanceTo(location1, location2))
-    // var headDisc = headingDistanceTo(location1, location2)
-
     var options = {
       layers: [
         tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWRkeTJlbmFtIiwiYSI6ImNqZGI5ZGw1bjUzeXkyd3M2d2owMDJmeXAifQ.2694zHwfWLWCOCRSpB7xUw', {
@@ -157,14 +179,12 @@ export class AbsenComponent implements OnInit {
       ],
       zoom: 16,
       zoomControl: false,
-      center: latLng([location2.lat, location2.lon])
+      center: location2 != null ? latLng([location2.lat, location2.lon]) : latLng([0.000000, 0.000000])
     };
     return options;
   }
 
-  getRadius() {
 
-  }
 
   onDataPerDay() {
     if (this.dateThis !== undefined) {
