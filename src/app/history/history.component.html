@@ -1,0 +1,170 @@
+<div class="container-fluid h-general p-0">
+  <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
+  <div class="card">
+    <div class="card-header row">
+      <div
+        class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold text-dark">
+        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt=""> MANAGEMENT / {{ getUserInfo() }}
+      </div>
+      <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">HISTORY</div>
+      <div class="col-sm-4 justify-content-end h4 m-0 align-items-center d-flex">
+        <button (click)="back()" mat-flat-button color="accent">
+          <mat-icon>navigate_before</mat-icon>Back
+        </button>
+      </div>
+    </div>
+
+
+    <div class="card-body h-body">
+      <div class="row">
+
+        <ng-container *ngIf="isBetween">
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="dp1" [(ngModel)]="startDate" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+              <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>End Date</mat-label>
+              <input matInput (dateChange)="EndDateChange($event)" [matDatepicker]="dp2" [(ngModel)]="endDate" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+              <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isPerDay">
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>Date</mat-label>
+              <input matInput (dateChange)="dateEvent($event)" [matDatepicker]="dp3" [(ngModel)]="dateThis" disabled>
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </ng-container>
+
+
+        <div *ngIf="isPerDay || isBetween" class="col-sm-1">
+          <button *ngIf="isPerDay" (click)="onDataPerDay()" mat-raised-button class="mb-2 ml-2 p-1">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button *ngIf="isBetween" (click)="searchDataBetween()" mat-raised-button class="mb-2 ml-2 p-1">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field>
+            <mat-label>Select an option</mat-label>
+            <mat-select (selectionChange)="onChange($event)" [(value)]="selected">
+              <mat-option value="1">All</mat-option>
+              <mat-option value="2">Per Day</mat-option>
+              <mat-option value="3">Between</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="d-flex col-12">
+          <div class="example-container mat-elevation-z8" #TABLE>
+            <table mat-table #table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="meja">
+                <th mat-header-cell *matHeaderCellDef> No Meja. </th>
+                <td mat-cell *matCellDef="let element"> {{element.meja}} </td>
+                <td mat-footer-cell *matFooterCellDef> Total </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nama">
+                <th mat-header-cell *matHeaderCellDef> Nama. </th>
+                <td mat-cell *matCellDef="let element"> {{element.nama}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="menu">
+                <th mat-header-cell *matHeaderCellDef> Menu. </th>
+                <td mat-cell *matCellDef="let element"> <textarea class="text-menu" name='awesome'
+                    disabled> {{element.menu}} </textarea> </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="desc">
+                <th mat-header-cell *matHeaderCellDef> Desc. </th>
+                <td mat-cell *matCellDef="let element"> {{element.desc}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="onreserve">
+                <th mat-header-cell *matHeaderCellDef> Reserve. </th>
+                <td mat-cell *matCellDef="let element"> {{element.onreserve}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="onprosses">
+                <th mat-header-cell *matHeaderCellDef> Proses. </th>
+                <td mat-cell *matCellDef="let element"> {{element.onprosses}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="onready">
+                <th mat-header-cell *matHeaderCellDef> Ready. </th>
+                <td mat-cell *matCellDef="let element"> {{element.onready}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="cashier">
+                <th mat-header-cell *matHeaderCellDef> Kasir. </th>
+                <td class="text-truncate cashier-line" mat-cell *matCellDef="let element">
+                  {{element.cashier}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="kitchen">
+                <th mat-header-cell *matHeaderCellDef> Kitchen. </th>
+                <td class="text-truncate kitchen-line" mat-cell *matCellDef="let element"> {{element.kitchen}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef> Total. </th>
+                <td mat-cell *matCellDef="let element">Rp {{element.total | number: '1.0-0'}} </td>
+                <td mat-footer-cell *matFooterCellDef>Rp {{ allTotal | number: '1.0-0' }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="discount">
+                <th mat-header-cell *matHeaderCellDef> Diskon. </th>
+                <td mat-cell *matCellDef="let element"> {{element.discount}}% </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="grandtotal">
+                <th mat-header-cell *matHeaderCellDef> Grand Total. </th>
+                <td mat-cell *matCellDef="let element">Rp {{element.grandtotal | number: '1.0-0'}} </td>
+                <td mat-footer-cell *matFooterCellDef>Rp {{ allGrandTotal | number: '1.0-0' }} </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+            </table>
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

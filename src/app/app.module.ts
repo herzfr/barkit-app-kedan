@@ -55,6 +55,7 @@ import { WhatsappIntegratedComponent } from './dialog/whatsapp-integrated/whatsa
 import { WhatsappService } from './services/whatsapp.service';
 import { OrderComponent } from './order/order.component';
 import { ChooseDialogComponent } from './dialog/choose-dialog/choose-dialog.component';
+import { HistoryComponent } from './history/history.component';
 
 
 export function playerFactory() {
@@ -87,7 +88,8 @@ export function playerFactory() {
     AddsDialogComponent,
     WhatsappIntegratedComponent,
     OrderComponent,
-    ChooseDialogComponent
+    ChooseDialogComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

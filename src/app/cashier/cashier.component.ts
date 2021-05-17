@@ -348,6 +348,9 @@ export class CashierComponent implements OnInit {
   }
 
 
+  historyOrder() {
+    this.route.navigate(['/history'])
+  }
 
   logout() {
     localStorage.clear()

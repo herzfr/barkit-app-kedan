@@ -6,6 +6,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AvailableComponent } from './available/available.component';
 import { CashierComponent } from './cashier/cashier.component';
 import { CheckAbsenComponent } from './check-absen/check-absen.component';
+import { HistoryComponent } from './history/history.component';
 import { HomeComponent } from './home/home.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { LoginComponent } from './login/login.component';
@@ -43,6 +44,14 @@ const routes: Routes = [
   {
     path: "orderself",
     component: OrderComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_CASHIER"]
+    },
+  },
+  {
+    path: "history",
+    component: HistoryComponent,
     canActivate: [AuthGuard],
     data: {
       allowedRoles: ["ROLE_CASHIER"]
