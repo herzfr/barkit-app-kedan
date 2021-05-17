@@ -103,7 +103,7 @@ export class AbsenComponent implements OnInit {
   getDataAll() {
     this.absenService.getDataAbsenHistory().subscribe(res => {
       if (res['codestatus'] == "00") {
-        console.log(res['values']);
+        // console.log(res['values']);
         this.dataSource = new MatTableDataSource(
           res['values']
         );

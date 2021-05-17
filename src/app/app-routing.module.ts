@@ -9,6 +9,7 @@ import { CheckAbsenComponent } from './check-absen/check-absen.component';
 import { HomeComponent } from './home/home.component';
 import { KitchenComponent } from './kitchen/kitchen.component';
 import { LoginComponent } from './login/login.component';
+import { OrderComponent } from './order/order.component';
 import { AuthGuard } from './services/auth.guard';
 import { UserComponent } from './user/user.component';
 
@@ -34,6 +35,14 @@ const routes: Routes = [
   {
     path: "cashier",
     component: CashierComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_CASHIER"]
+    },
+  },
+  {
+    path: "orderself",
+    component: OrderComponent,
     canActivate: [AuthGuard],
     data: {
       allowedRoles: ["ROLE_CASHIER"]

@@ -1,0 +1,148 @@
+<div class="container-fluid h-general p-0">
+  <!-- <h1>Install Bootstrap 4 in Angular 9 - ItSolutionStuff.com</h1> -->
+  <div class="card">
+    <div class="card-header d-flex">
+      <div class="col-sm-4 d-flex align-items-center justify-content-center justify-content-md-start font-weight-bold">
+        <img class="logo-small mr-2" src="assets/images/logo_kedan.png" alt="">d'Coffee Kedan / {{ getUserInfo() }}
+      </div>
+      <div class="col-sm-4 justify-content-center h4 m-0 align-items-center d-flex">SELF ORDER</div>
+      <div class="col-sm-4 d-flex justify-content-end align-items-center font-weight-bold">
+        <button (click)="back()" mat-flat-button color="accent">
+          <mat-icon>navigate_before</mat-icon>Back
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body h-body">
+      <div class="row justify-content-between">
+
+        <div class="col-sm-6">
+          <p class="h6 my-2 text-center">Daftar Menu</p>
+
+          <div class="row p-2 ">
+            <mat-form-field class="example-full-width col-sm m-0 py-2">
+              <mat-label>Cari Nama Orderan</mat-label>
+              <input (keyup.enter)="applyFilter()" matInput placeholder="Ex. Espresso" [(ngModel)]="searchValue">
+            </mat-form-field>
+            <button (click)="applyFilter()" mat-button class="col-sm-1 p-2">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+
+          <div class="card card-m">
+            <div *ngFor="let item of allDataMenu">
+              <button [disabled]="!item.available" (click)="choose(item)" class="row card-r m-0 mb-1">
+                <div class="row no-gutters">
+                  <div class="col-4">
+                    <img class="card-img img-dish" [src]="getDataImage(item.avatar)" alt="Suresh Dasari Card">
+                  </div>
+                  <div class="col-8 d-flex align-items-center">
+                    <div class="card-body p-0 pl-5 py-2">
+                      <h6 class="card-title mb-1 text-left">{{ item.name }}</h6>
+                      <p *ngIf="item.available" class="card-text small mb-1 text-left">{{ item.desc }}</p>
+                      <p *ngIf="!item.available" class="card-text small mb-1 text-left text-danger">Stok habis</p>
+                      <div class="col d-flex p-0">
+                        <h5 class="mb-1">{{ item.harga | category }}</h5>
+                        <div class="qty">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div *ngIf="!isHaveOrder" class="col-sm-6 d-flex p-0 justify-content-center align-items-center my-3">
+          <!-- <h5 class="m-0 font-weight-bold">Pesanan Anda Masih Kosong!</h5> -->
+          <img class="img-kosong" src="assets/svgs/info_kosong.svg" alt="">
+        </div>
+
+        <div *ngIf="isHaveOrder" class="col-sm-6">
+          <p class="h6 my-2 text-center">Daftar Pesanan Anda</p>
+          <p *ngIf="isHaveOrder" class="small text-muted my-2 text-center">Klik tombol X jika ingin menghapus pesanan
+          </p>
+
+          <div class="card card-m">
+            <div *ngFor="let item of allOrderHere; let i = index;">
+              <div class="row card-r m-0 mb-1">
+                <div class="row no-gutters">
+                  <div class="col-4">
+                    <img class="card-img img-dish" [src]="getDataImage(item.avatar)" alt="Suresh Dasari Card">
+                  </div>
+                  <div class="col-8 d-flex align-items-center">
+                    <div class="card-body p-0 pl-5 py-2">
+                      <h6 class="card-title mb-1 text-left">{{ item.name }}</h6>
+                      <p class="card-text small mb-1 text-left">{{ item.desc }}</p>
+                      <div class="col d-flex p-0 justify-content-between align-items-center">
+                        <h5 class="m-0">{{ item.harga | category }}</h5>
+                        <p class="m-0 medium"> Qty {{ item.qty }}</p>
+                        <button (click)="delete(i)" mat-button>
+                          <img src="assets/svgs/cancel.svg" class="material-icons ico-delete">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="row p-2 ">
+        <div class="col-sm-6">
+
+        </div>
+        <div class="col-sm-6">
+
+          <div *ngIf="isHaveOrder" class="col d-flex p-0 justify-content-center align-items-center my-3">
+            <button mat-raised-button color="dark" (click)="clearAllOrder()">Hapus Semua Pesanan</button>
+          </div>
+
+          <div *ngIf="isHaveOrder" class="col d-flex p-0 justify-content-between align-items-center my-2">
+            <h3 class="m-0">Item Total :</h3>
+            <h3 class="m-0">{{ total | number: '1.0-0' }}</h3>
+          </div>
+
+          <form *ngIf="isHaveOrder" class="example-form my-3">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Nama</mat-label>
+              <input matInput placeholder="Masukan Nama" [(ngModel)]="nama" [ngModelOptions]="{standalone: true}">
+              <!-- <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Note</mat-label>
+              <input matInput placeholder="Masukan Note" [(ngModel)]="desc" [ngModelOptions]="{standalone: true}">
+              <!-- <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Meja</mat-label>
+              <mat-select [(ngModel)]="meja" name="food">
+                <mat-option *ngFor="let food of selects" [value]="food">
+                  {{food}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </form>
+
+
+          <div *ngIf="isHaveOrder" class="col d-flex p-0 justify-content-center align-items-center mb-2">
+            <button (click)="doOrder()" mat-button class="btn-pesan">Checkout</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

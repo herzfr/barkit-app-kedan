@@ -271,6 +271,10 @@ export class CashierComponent implements OnInit {
     this.route.navigate(['/available'])
   }
 
+  selfOrder() {
+    this.route.navigate(['/orderself'])
+  }
+
   rejectOrder(id) {
     let obj: any = new Object;
     obj.id = id;

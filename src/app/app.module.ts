@@ -53,6 +53,8 @@ import { AddsService } from './services/adds.service';
 import { AddsDialogComponent } from './dialog/adds-dialog/adds-dialog.component';
 import { WhatsappIntegratedComponent } from './dialog/whatsapp-integrated/whatsapp-integrated.component';
 import { WhatsappService } from './services/whatsapp.service';
+import { OrderComponent } from './order/order.component';
+import { ChooseDialogComponent } from './dialog/choose-dialog/choose-dialog.component';
 
 
 export function playerFactory() {
@@ -83,7 +85,9 @@ export function playerFactory() {
     CheckAbsenComponent,
     AddsComponent,
     AddsDialogComponent,
-    WhatsappIntegratedComponent
+    WhatsappIntegratedComponent,
+    OrderComponent,
+    ChooseDialogComponent
   ],
   imports: [
     BrowserModule,

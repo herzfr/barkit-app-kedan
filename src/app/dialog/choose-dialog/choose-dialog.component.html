@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <h1 mat-dialog-title class="text-center">
+    {{ menu.name }}
+  </h1>
+  <div mat-dialog-content class="text-center">
+    <img class="card-img img-dish" [src]="getDataImage(menu.avatar)" alt="Suresh Dasari Card">
+    <p class="font-weight-light mb-1 text-center">{{ menu.desc }}</p>
+    <h5 class="mb-1">{{ menu.harga | category }}</h5>
+    <div class="justify-content-center">
+      <button (click)="minus()" mat-button>
+        <mat-icon aria-hidden="false" aria-label="Example home icon">remove</mat-icon>
+      </button>
+      <input type="number" [value]="quantity">
+      <button (click)="plus()" mat-button>
+        <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-center">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="onOrder(menu)">Pesan</button>
+  </div>
+</div>

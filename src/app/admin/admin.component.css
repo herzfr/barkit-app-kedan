@@ -47,3 +47,19 @@ table {
 ::ng-deep .mat-table tfoot {
   font-weight: 600;
 }
+
+
+.text-menu {
+  width: 70%;
+  padding: 5px;
+  margin: 5px;
+  border: 0px;
+  min-height: 100px;
+  border: 1px solid #333333;
+  border-radius: 10px;
+}
+
+.kitchen-line,
+.cashier-line {
+  max-width: 30px;
+}

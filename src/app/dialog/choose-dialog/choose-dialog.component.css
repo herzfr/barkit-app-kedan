@@ -1,0 +1,28 @@
+.mat-dialog-content {
+  min-width: 280px
+}
+
+
+
+/*Prevent text selection*/
+/* span {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  } */
+
+input {
+  border: 0;
+  width: 20%;
+  text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:disabled {
+  background-color: white;
+}
