@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CustomDialogComponent } from '../dialog/custom-dialog/custom-dialog.component';
 import { AvailableService } from '../services/available.service';
+import { PaymentService } from '../services/payment.service';
 // const ALL_BOOKS: Book[] = [
 //   { value: 1, name: 'All' },
 //   { value: 2, name: 'Per Day' },
@@ -49,6 +50,7 @@ export class AdminComponent implements OnInit {
     'payment',
     'balance',
     'status_payment',
+    'type_payment',
     'createdAt',
   ];
   dataSource: MatTableDataSource<Order>;
@@ -59,10 +61,13 @@ export class AdminComponent implements OnInit {
   allBalance: number = 0;
 
   allDataMenu;
+  categoryl;
 
-  constructor(private route: Router, private managementService: ManagementService, private dialog: MatDialog, private availableService: AvailableService) {
+  constructor(private route: Router, private managementService: ManagementService, private dialog: MatDialog,
+    private availableService: AvailableService, private paymentService: PaymentService) {
     this.getUserInfo()
     this.getProduct()
+    this.getPaymentType()
     this.setIsPerday()
   }
 
@@ -96,11 +101,26 @@ export class AdminComponent implements OnInit {
 
   getProduct() {
     this.availableService.getAllMenu().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] == "00") {
         this.allDataMenu = res['values']
       }
     })
+  }
+
+  getPaymentType() {
+    this.paymentService.getCategoryPayment().subscribe(res => {
+      // console.log(res['values']);
+
+      if (res['codestatus'] === "00") {
+        this.categoryl = res['values']
+        // console.log(this.categoryl);
+      }
+    })
+  }
+
+  setPaymentType(type) {
+    return this.categoryl.find(x => x.id === type).name;
   }
 
   getNameProduct(id) {
@@ -165,7 +185,7 @@ export class AdminComponent implements OnInit {
       obj.date = this.dateThis;
       this.managementService.getDataHistoryPerDay(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );

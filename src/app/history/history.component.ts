@@ -100,7 +100,7 @@ export class HistoryComponent implements OnInit {
 
   getProduct() {
     this.availableService.getAllMenu().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] == "00") {
         this.allDataMenu = res['values']
       }
@@ -148,7 +148,7 @@ export class HistoryComponent implements OnInit {
       obj.date = this.dateThis;
       this.managementService.getDataHistoryPerDay(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          console.log(res['values']);
+          // console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );

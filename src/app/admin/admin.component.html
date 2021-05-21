@@ -201,10 +201,18 @@
               </ng-container>
 
               <ng-container matColumnDef="status_payment">
-                <th mat-header-cell *matHeaderCellDef> S.Payment </th>
+                <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let element">
                   <span *ngIf="element.status_payment" class="font-weight-normal text-left text-success">PAID</span>
                   <span *ngIf="!element.status_payment" class="font-weight-normal text-left text-danger">UNPAID</span>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="type_payment">
+                <th mat-header-cell *matHeaderCellDef> Method Pay. </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ setPaymentType(element.type_payment) }}
                 </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
               </ng-container>

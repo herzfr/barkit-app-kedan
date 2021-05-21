@@ -106,7 +106,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
-        console.log(message);
+        // console.log(message);
         if (message == "00") {
           this.getDataAll()
           this.openSnackBar("Orderan baru", "x", 1)
@@ -163,7 +163,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
 
   getProduct() {
     this.availableService.getAllMenu().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] == "00") {
         this.allDataMenu = res['values']
       }
@@ -171,7 +171,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
   }
 
   init(event) {
-    console.log(event);
+    // console.log(event);
     let orderFormGroup: FormGroup = new FormGroup({})
     for (const key in event) {
       if (event.hasOwnProperty(key)) {
@@ -180,7 +180,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
         orderFormGroup.addControl(key, new FormControl(el, Validators.required))
       }
     }
-    console.log(orderFormGroup);
+    // console.log(orderFormGroup);
     return orderFormGroup;
   }
 
@@ -211,8 +211,8 @@ export class CashierComponent implements OnInit, AfterContentChecked {
   }
 
   getRandomString(i) {
-    console.log(i);
-    console.log(this.formArray.controls[i].get('order_id'));
+    // console.log(i);
+    // console.log(this.formArray.controls[i].get('order_id'));
     var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     var result = '';
     for (var oa = 0; oa < 6; oa++) {
@@ -230,7 +230,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
     var grandtotal = total - grand;
     this.formArray.controls[i].get('grandtotal').patchValue(grandtotal)
     this.formArray.controls[i].get('grandtotal').updateValueAndValidity()
-    console.log(this.formArray.controls[i].get('grandtotal').value);
+    // console.log(this.formArray.controls[i].get('grandtotal').value);
   }
 
   // grandTotal(i) {
@@ -294,7 +294,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
 
   getDataOnOrder() {
     this.cashierService.getDataOnOrder().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnOrder = res['values']
 
@@ -333,7 +333,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
 
   doApprove(i, user) {
     if (this.formArray.controls[i].get('order_id').valid) {
-      console.log(this.formArray.controls[i].value);
+      // console.log(this.formArray.controls[i].value);
       let obj: any = new Object;
       obj.id = this.formArray.controls[i].get('id').value;
       obj.cashier = user;
@@ -345,7 +345,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
       obj.grandtotal = this.formArray.controls[i].get('grandtotal').value
       obj.payment = this.formArray.controls[i].get('payment').value
       obj.balance = this.formArray.controls[i].get('balance').value
-      console.log(obj);
+      // console.log(obj);
       this.cashierService.approveOrder(obj).subscribe(res => {
         // console.log(res);
         if (res['codestatus'] === "00") {
@@ -438,14 +438,14 @@ export class CashierComponent implements OnInit, AfterContentChecked {
   }
 
   deleteItem(i, idx) {
-    console.log(i, idx);
+    // console.log(i, idx);
     let menu: any = JSON.parse(this.formArray.controls[i].get('menu').value);
     menu.forEach((item, index) => {
       if (index === idx) {
         menu.splice(index, 1);
       }
     });
-    console.log(menu);
+    // console.log(menu);
     this.formArray.controls[i].get('menu').patchValue(JSON.stringify(menu))
   }
 
@@ -475,7 +475,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
       dialogConfig
     );
     dialogCustom.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res !== undefined) {
         var data = JSON.parse(this.formArray.controls[i].get('menu').value);
         let arr = new Array;
@@ -488,6 +488,23 @@ export class CashierComponent implements OnInit, AfterContentChecked {
     });
   }
 
+  updateItem(i) {
+    // var id = JSON.parse(this.formArray.controls[i].get('id').value);
+    // var menu = JSON.parse(this.formArray.controls[i].get('menu').value);
+    // console.log(id, menu);
+    let obj: any = new Object;
+    obj.id = this.formArray.controls[i].get('id').value;
+    obj.menu = this.formArray.controls[i].get('menu').value
+    this.cashierService.updateMenu(obj).subscribe(res => {
+      if (res['codestatus'] == "00") {
+        this.getDataAll()
+        this.customDialog("check_circle", res['message'])
+      } else {
+        this.customDialog("sms_failed", "update payment gagal")
+      }
+    })
+  }
+
   // getDataExample(event) {
   //   console.log(event);
   // }
@@ -498,7 +515,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
 
   getDataOnWaiting() {
     this.cashierService.getDataOnWaiting().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnWaiting = res['values']
       }
@@ -514,7 +531,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
   // ==========================================================================
   getDataOnReady() {
     this.cashierService.getDataOnReady().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnReady = res['values']
 
@@ -696,7 +713,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
 
   // PAYMENT ORDER
   paymentOrder(i) {
-    console.log(i);
+    // console.log(i);
     if (this.formArray.controls[i].get('order_id').valid) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.data = this.formArray.controls[i].value;
@@ -709,7 +726,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
         dialogConfig
       );
       dialogCustom.afterClosed().subscribe(res => {
-        console.log(res);
+        // console.log(res);
         if (res !== undefined) {
           if (res['codestatus'] == "00") {
             this.getDataAll()
@@ -737,7 +754,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
       dialogConfig2
     );
     dialogCustom2.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res !== undefined) {
         if (res['codestatus'] == "00") {
           this.getDataAll()

@@ -181,6 +181,33 @@ body {
   color: #fff;
 }
 
+.close-item {
+  border: transparent;
+  background-color: transparent;
+  color: #ff5656;
+  border-radius: 10px;
+  padding-right: 30px;
+  padding-top: 3px;
+  width: 30px;
+  height: 30px;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  -webkit-box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  -moz-box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.close-item:disabled {
+  background-color: #d1d1d1;
+  color: #999999;
+  box-shadow: none;
+}
+
+
+.icon-set {
+  font-size: 20px;
+  padding: 1px;
+  right: 10px;
+}
+
 /* input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

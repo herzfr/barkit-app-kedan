@@ -31,7 +31,7 @@
     <div class="card-body h-body">
       <div class="row">
         <!-- ON STATUS 0 -->
-        <div class="col-sm-4">
+        <div class="col-sm-6">
 
           <div class="display-4 text-center mb-1 order">ORDER</div>
           <div class="on-order">
@@ -60,7 +60,9 @@
 
                             <div class="d-flex">
                               <span class="col-sm font-weight-bold text-info">{{ getNameProduct(item.id) }}</span>
-                              <mat-icon (click)="deleteItem(i, idx)">close</mat-icon>
+                              <button class="close-item" [disabled]="checkValue(i)" (click)="deleteItem(i, idx)">
+                                <mat-icon class="icon-set">close</mat-icon>
+                              </button>
                             </div>
                             <div class="card m-2">
                               <div class="d-flex px-2 pt-1 text-primary">
@@ -86,6 +88,8 @@
 
                       <button [disabled]="item.get('status_payment').value" class="mr-1 mb-2 col-12"
                         (click)="callMenu(i)" mat-raised-button>Add Item</button>
+                      <button [disabled]="item.get('status_payment').value" class="mr-1 mb-2 col-12"
+                        (click)="updateItem(i)" mat-raised-button>Update Item</button>
 
                       <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
                         <span class="font-weight-bold text-left"> Grand Total :</span>
@@ -139,7 +143,7 @@
 
         </div>
         <!-- ON STATUS 1 -->
-        <div class="col-sm-4">
+        <!-- <div class="col-sm-4">
 
           <div class="display-4 text-center mb-1 waiting">WAITING</div>
           <div class="on-waiting">
@@ -151,7 +155,6 @@
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
                   <hr>
-                  <!-- <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea> -->
 
                   <div class="card p-2 col-12 mb-2">
 
@@ -166,7 +169,6 @@
                     </ng-container>
 
                   </div>
-                  <!--  -->
                   <hr>
 
                   <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
@@ -192,9 +194,9 @@
             </ng-container>
           </div>
 
-        </div>
+        </div> -->
         <!-- ON STATUS 3 -->
-        <div class="col-sm-4">
+        <div class="col-sm-6">
 
           <div class="display-4 text-center mb-1 ready">READY</div>
           <div class="on-ready">

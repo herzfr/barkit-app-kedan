@@ -218,4 +218,26 @@ export class CashierService {
       )
   }
 
+  updateMenu(obj) {
+    const authObj = JSON.stringify(obj);
+    return this.http.post(this.apiUrl + "/api/updateMenu", authObj, this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
+
 }

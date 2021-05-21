@@ -18,56 +18,61 @@
     <div class="card-body h-body">
       <div class="row">
 
-        <ng-container *ngIf="isBetween">
-          <div class="col-sm-4">
+        <div class="row w-100 px-3">
+
+          <ng-container *ngIf="isBetween">
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="dp1" [(ngModel)]="startDate" disabled>
+                <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>End Date</mat-label>
+                <input matInput (dateChange)="EndDateChange($event)" [matDatepicker]="dp2" [(ngModel)]="endDate"
+                  disabled>
+                <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="isPerDay">
+            <div class="col-sm-4">
+              <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput (dateChange)="dateEvent($event)" [matDatepicker]="dp3" [(ngModel)]="dateThis" disabled>
+                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </ng-container>
+
+
+          <div *ngIf="isPerDay || isBetween" class="col-sm-1 mr-3">
+            <button *ngIf="isPerDay" (click)="onDataPerDay()" mat-raised-button class="mb-2 ml-2 p-1">
+              <mat-icon>search</mat-icon>
+            </button>
+            <button *ngIf="isBetween" (click)="searchDataBetween()" mat-raised-button class="mb-2 ml-2 p-1">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+
+          <div class="col-sm">
             <mat-form-field>
-              <mat-label>Start Date</mat-label>
-              <input matInput [matDatepicker]="dp1" [(ngModel)]="startDate" disabled>
-              <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-              <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+              <mat-label>Select an option</mat-label>
+              <mat-select (selectionChange)="onChange($event)" [(value)]="selected">
+                <mat-option value="1">Semua</mat-option>
+                <mat-option value="2">Per Hari Ini</mat-option>
+                <mat-option value="3">Diantara Hari</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 
-          <div class="col-sm-4">
-            <mat-form-field>
-              <mat-label>End Date</mat-label>
-              <input matInput (dateChange)="EndDateChange($event)" [matDatepicker]="dp2" [(ngModel)]="endDate" disabled>
-              <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-              <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="isPerDay">
-          <div class="col-sm-4">
-            <mat-form-field>
-              <mat-label>Date</mat-label>
-              <input matInput (dateChange)="dateEvent($event)" [matDatepicker]="dp3" [(ngModel)]="dateThis" disabled>
-              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </ng-container>
-
-
-        <div *ngIf="isPerDay || isBetween" class="col-sm-1">
-          <button *ngIf="isPerDay" (click)="onDataPerDay()" mat-raised-button class="mb-2 ml-2 p-1">
-            <mat-icon>search</mat-icon>
-          </button>
-          <button *ngIf="isBetween" (click)="searchDataBetween()" mat-raised-button class="mb-2 ml-2 p-1">
-            <mat-icon>search</mat-icon>
-          </button>
-        </div>
-
-        <div class="col-sm">
-          <mat-form-field>
-            <mat-label>Select an option</mat-label>
-            <mat-select (selectionChange)="onChange($event)" [(value)]="selected">
-              <mat-option value="1">Semua</mat-option>
-              <mat-option value="2">Per Hari Ini</mat-option>
-              <mat-option value="3">Diantara Hari</mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
 
 
@@ -187,7 +192,7 @@
               </ng-container>
 
               <ng-container matColumnDef="status_payment">
-                <th mat-header-cell *matHeaderCellDef> S.Payment </th>
+                <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let element">
                   <span *ngIf="element.status_payment" class="font-weight-normal text-left text-success">PAID</span>
                   <span *ngIf="!element.status_payment" class="font-weight-normal text-left text-danger">UNPAID</span>

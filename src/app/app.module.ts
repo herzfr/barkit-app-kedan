@@ -131,6 +131,6 @@ export function playerFactory() {
   entryComponents: [ScanOrderComponent, AvatarDialogComponent],
   providers: [SocketioService, AuthService, CashierService, KitchenService, AvailableService,
     ManagementService, DatePipe, UserService, AddsService, WhatsappService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

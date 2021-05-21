@@ -69,3 +69,7 @@ table {
 .card-menu {
   max-width: fit-content;
 }
+
+::ng-deep .mat-table {
+  min-width: 250px;
+}
