@@ -120,7 +120,7 @@ export class OrderComponent implements OnInit {
 
     dialogChooseMenu.afterClosed().subscribe(res => {
       if (res != undefined) {
-        // console.log(res);
+        console.log(res);
         this.allOrderHere.push(res)
         // console.log(this.allOrderHere);
         this.checkBadge()
@@ -166,17 +166,22 @@ export class OrderComponent implements OnInit {
       // console.log("test");
 
       let infoOrder = new Array;
-      let order: string;
+      // let order: string;
 
       this.allOrderHere.forEach((item, index) => {
-        infoOrder.push((index + 1) + ". " + item.name + ", qty : " + item.qty);
+        // infoOrder.push((index + 1) + ". " + item.name + ", qty : " + item.qty);
+        let obj: any = new Object;
+        obj.id = item.id;
+        obj.qty = item.qty;
+        obj.discount = 0;
+        infoOrder.push(obj);
       });
-      order = infoOrder.map(x => x).join("\n");
+      // order = infoOrder.map(x => x).join("\n");
 
       let obj: any = new Object;
       obj.nama = this.nama;
       obj.meja = this.meja;
-      obj.menu = order;
+      obj.menu = JSON.stringify(infoOrder);
       obj.desc = this.desc ? this.desc : "";
       obj.total = this.total;
 

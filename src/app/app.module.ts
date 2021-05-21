@@ -56,6 +56,8 @@ import { WhatsappService } from './services/whatsapp.service';
 import { OrderComponent } from './order/order.component';
 import { ChooseDialogComponent } from './dialog/choose-dialog/choose-dialog.component';
 import { HistoryComponent } from './history/history.component';
+import { PaymentDialogComponent } from './dialog/payment-dialog/payment-dialog.component';
+import { MenuDialogComponent } from './dialog/menu-dialog/menu-dialog.component';
 
 
 export function playerFactory() {
@@ -89,7 +91,9 @@ export function playerFactory() {
     WhatsappIntegratedComponent,
     OrderComponent,
     ChooseDialogComponent,
-    HistoryComponent
+    HistoryComponent,
+    PaymentDialogComponent,
+    MenuDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -107,6 +111,7 @@ export function playerFactory() {
       secondaryColour: '#ffffff',
       tertiaryColour: '#ffffff'
     }),
+
     QRCodeModule,
     LeafletModule,
 

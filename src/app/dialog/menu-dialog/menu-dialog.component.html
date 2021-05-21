@@ -1,0 +1,54 @@
+<h1 mat-dialog-title class="text-center">
+  ADD ITEM MENU
+</h1>
+<div mat-dialog-content class="text-center col-12 m-0">
+
+  <div class="row p-2 ">
+    <mat-form-field class="example-full-width col-sm m-0 py-2" appearance="outline">
+      <mat-label>Cari Nama Orderan</mat-label>
+      <input (keyup.enter)="applyFilter()" matInput placeholder="Ex. Espresso" [(ngModel)]="searchValue">
+    </mat-form-field>
+    <button (click)="applyFilter()" mat-button class="col-sm-1 p-2">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body h-body">
+    <div class="row justify-content-between">
+
+      <div class="col-sm-12">
+
+        <div class="card card-m">
+          <div *ngFor="let item of menuAll">
+            <button [disabled]="!item.available" (click)="choose(item)" class="row card-r m-0 mb-1">
+              <div class="row no-gutters">
+                <div class="col-4">
+                  <img class="card-img img-dish" [src]="getDataImage(item.avatar)" alt="Suresh Dasari Card">
+                </div>
+                <div class="col-8 d-flex align-items-center">
+                  <div class="card-body p-0 pl-5 py-2">
+                    <h6 class="card-title mb-1 text-left">{{ item.name }}</h6>
+                    <p *ngIf="item.available" class="card-text small mb-1 text-left">{{ item.desc }}</p>
+                    <p *ngIf="!item.available" class="card-text small mb-1 text-left text-danger">Stok habis</p>
+                    <div class="col d-flex p-0">
+                      <h5 class="mb-1">{{ item.harga | category }}</h5>
+                      <div class="qty">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+</div>

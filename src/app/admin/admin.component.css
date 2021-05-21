@@ -59,7 +59,13 @@ table {
   border-radius: 10px;
 }
 
-.kitchen-line,
+/* .kitchen-line,
 .cashier-line {
   max-width: 30px;
+} */
+
+
+
+.card-menu {
+  max-width: fit-content;
 }

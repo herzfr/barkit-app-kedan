@@ -6,6 +6,7 @@ import { ManagementService } from '../services/management.service';
 import * as XLSX from 'xlsx';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CustomDialogComponent } from '../dialog/custom-dialog/custom-dialog.component';
+import { AvailableService } from '../services/available.service';
 // const ALL_BOOKS: Book[] = [
 //   { value: 1, name: 'All' },
 //   { value: 2, name: 'Per Day' },
@@ -20,26 +21,49 @@ import { CustomDialogComponent } from '../dialog/custom-dialog/custom-dialog.com
 export class AdminComponent implements OnInit {
   @ViewChild('TABLE') table: ElementRef;
 
-  selected = "1";
+  selected = "2";
 
   startDate;
   endDate;
-  dateThis;
+  dateThis = new Date();
 
   isALL: Boolean;
   isPerDay: Boolean;
   isBetween: Boolean;
 
 
-  displayedColumns = ['meja', 'nama', 'menu', 'desc', 'onreserve', 'onprosses', 'onready', 'cashier', 'kitchen', 'total', 'discount', 'grandtotal'];
+  displayedColumns = [
+    // 'meja',
+    'order_id',
+    'nama',
+    'menu',
+    // 'desc',
+    'onreserve',
+    // 'onprosses',
+    // 'onready',
+    // 'cashier',
+    // 'kitchen',
+    // 'total',
+    // 'discount',
+    'grandtotal',
+    'payment',
+    'balance',
+    'status_payment',
+    'createdAt',
+  ];
   dataSource: MatTableDataSource<Order>;
 
   allTotal: number = 0;
   allGrandTotal: number = 0;
+  allPayment: number = 0;
+  allBalance: number = 0;
 
-  constructor(private route: Router, private managementService: ManagementService, private dialog: MatDialog) {
+  allDataMenu;
+
+  constructor(private route: Router, private managementService: ManagementService, private dialog: MatDialog, private availableService: AvailableService) {
     this.getUserInfo()
-    this.setIsALL()
+    this.getProduct()
+    this.setIsPerday()
   }
 
   ngOnInit(): void {
@@ -61,12 +85,38 @@ export class AdminComponent implements OnInit {
     this.isALL = false;
     this.isPerDay = true;
     this.isBetween = false;
+    this.onDataPerDay()
   }
 
   setIsBetween() {
     this.isALL = false;
     this.isPerDay = false;
     this.isBetween = true;
+  }
+
+  getProduct() {
+    this.availableService.getAllMenu().subscribe(res => {
+      console.log(res);
+      if (res['codestatus'] == "00") {
+        this.allDataMenu = res['values']
+      }
+    })
+  }
+
+  getNameProduct(id) {
+    // console.log(id);
+    for (const key in this.allDataMenu) {
+      if (Object.prototype.hasOwnProperty.call(this.allDataMenu, key)) {
+        const element = this.allDataMenu[key];
+        // console.log(element);
+
+        if (id === element.id) return element.name;
+      }
+    }
+  }
+
+  getListWaiting(event) {
+    return JSON.parse(event)
   }
 
 
@@ -115,7 +165,7 @@ export class AdminComponent implements OnInit {
       obj.date = this.dateThis;
       this.managementService.getDataHistoryPerDay(obj).subscribe(res => {
         if (res['codestatus'] == "00") {
-          // console.log(res['values']);
+          console.log(res['values']);
           this.dataSource = new MatTableDataSource(
             res['values']
           );
@@ -127,15 +177,21 @@ export class AdminComponent implements OnInit {
 
   getDataTotal() {
     this.allTotal = 0;
+    this.allGrandTotal = 0;
+    this.allPayment = 0;
+    this.allBalance = 0;
     // console.log(this.dataSource.data);
     this.dataSource.data.forEach(el => {
       // // console.log(el.total);
-      var y: number = + el.total;
+      // var y: number = + el.total;
       var x: number = + el.grandtotal;
-      this.allTotal = this.allTotal + y;
+      var a: number = + el.payment;
+      var b: number = + el.balance;
+      // this.allTotal = this.allTotal + x;
       this.allGrandTotal = this.allGrandTotal + x;
+      this.allPayment = this.allPayment + a;
+      this.allBalance = this.allBalance + b;
     })
-
   }
 
   onChange(event) {
@@ -172,6 +228,14 @@ export class AdminComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     /* save to file */
     XLSX.writeFile(wb, 'SheetJS.xlsx');
+  }
+
+
+  changeDate(event) {
+    var dd = event.substring(0, 2)
+    var mm = event.substring(2, 4)
+    var yyyy = event.substring(4, 8)
+    return dd + "/" + mm + "/" + yyyy;
   }
 
 

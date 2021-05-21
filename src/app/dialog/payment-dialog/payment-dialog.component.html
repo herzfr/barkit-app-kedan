@@ -1,0 +1,54 @@
+<h1 mat-dialog-title class="text-center">
+  ADD PAYMENT
+</h1>
+<div mat-dialog-content class="text-center row">
+
+  <form autocomplete="off">
+
+    <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+      <span class="font-weight-bold text-left"> GrandTotal :</span>
+      <span class="font-weight-normal text-left">Rp
+        {{  grandTotal | number: '1.0-0' }}</span>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Type Pembayaran</mat-label>
+      <mat-select [(ngModel)]="selectedType" name="category">
+        <mat-option *ngFor="let item of categoryl" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Masukan Pembayaran</mat-label>
+      <input matInput type="number" placeholder="Placeholder" (keyup)="applyFilter($event.target.value)">
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+
+    <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+      <span class="font-weight-bold text-left"> Payment :</span>
+      <span class="font-weight-normal text-left">Rp
+        {{  paymentChange | number: '1.0-0' }}</span>
+    </div>
+
+    <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+      <span class="font-weight-bold text-left"> Balance :</span>
+      <span class="font-weight-normal text-left">Rp
+        {{  balance | number: '1.0-0' }}</span>
+    </div>
+
+    <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+      <span class="font-weight-bold text-left"> Kembalian :</span>
+      <span class="font-weight-normal text-left">Rp
+        {{  moneychange | number: '1.0-0' }}</span>
+    </div>
+
+  </form>
+
+  <button class="btn-color-payment col-12" mat-button (click)="onPayment()">Payment</button>
+
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+</div>

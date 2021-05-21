@@ -11,4 +11,6 @@ export class Order {
     total: string;
     discount: string;
     grandtotal: string;
+    payment: string;
+    balance: string;
 }

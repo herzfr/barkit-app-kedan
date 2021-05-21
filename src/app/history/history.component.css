@@ -63,3 +63,14 @@ table {
 .cashier-line {
   max-width: 30px;
 }
+
+
+.btn-color-payment {
+  background-color: #01d1c7;
+  color: #fff;
+}
+
+
+.card-menu {
+  max-width: fit-content;
+}

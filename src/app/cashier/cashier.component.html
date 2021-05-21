@@ -47,40 +47,73 @@
                       <h3 *ngIf="item.get('meja').value === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
                       <h3 class="col-6  mb-0 text-right">{{ item.get('nama').value }}</h3>
                       <div class="d-flex p-0 w-100 mb-1">
-                        <mat-form-field class="col-sm px-2" appearance="outline">
+                        <mat-form-field class="col-sm p-0" appearance="outline">
                           <mat-label>Note</mat-label>
-                          <input matInput placeholder="Order ID" formControlName="desc">
+                          <input [readonly]="item.get('status_payment').value" matInput placeholder="Order ID"
+                            formControlName="desc">
                         </mat-form-field>
                       </div>
-                      <textarea class="text-menu" name='awesome' formControlName="menu"></textarea>
-                      <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
-                        <span class="font-weight-bold text-left"> Total :</span>
-                        <span class="font-weight-normal text-left">Rp
-                          {{ item.get('total').value | number: '1.0-0'  }}</span>
+
+                      <div class="card menu-items col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <ng-container *ngFor="let item of parseMenu(i); let idx = index;">
+                          <div class="justify-content-between p-2">
+
+                            <div class="d-flex">
+                              <span class="col-sm font-weight-bold text-info">{{ getNameProduct(item.id) }}</span>
+                              <mat-icon (click)="deleteItem(i, idx)">close</mat-icon>
+                            </div>
+                            <div class="card m-2">
+                              <div class="d-flex px-2 pt-1 text-primary">
+                                Qty :
+                                <input class="col-sm ml-2" (change)="handleChangeQty(i, $event, idx)" [value]="item.qty"
+                                  [disabled]="checkValue(i)">
+                              </div>
+                              <div class="d-flex px-2 pt-1 text-primary">
+                                Discount :
+                                <input class="col-sm ml-2 mr-2" (change)="handleChangeDisc(i, $event, idx)"
+                                  [value]="item.discount" [disabled]="checkValue(i)">%
+                              </div>
+                              <div class="d-flex px-2 pt-1 text-primary justify-content-between">
+                                Total :
+                                <span class="col-sm text-right">Rp
+                                  {{ getTotal(item.id, item.qty, item.discount, idx, i) | number: '1.0-0' }}</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </ng-container>
                       </div>
-                      <div class="d-flex col-12 p-0">
-                        <div class="col-sm mb-0 text-left p-1">
-                          <!-- <span class="font-weight-bold"> Discount :</span> -->
-                          <mat-form-field appearance="outline">
-                            <mat-label>Discount</mat-label>
-                            <mat-select formControlName="discount" name="discount"
-                              (selectionChange)="discountChange(i)">
-                              <mat-option *ngFor="let item of discountlist" [value]="item.value">
-                                {{item.name}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                      </div>
+
+                      <button [disabled]="item.get('status_payment').value" class="mr-1 mb-2 col-12"
+                        (click)="callMenu(i)" mat-raised-button>Add Item</button>
+
                       <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
                         <span class="font-weight-bold text-left"> Grand Total :</span>
-                        <span class="font-weight-normal text-left">Rp {{ grandTotal(i) | number:
+                        <span class="font-weight-normal text-left">Rp {{ getGrandTotal(i) | number:
                           '1.0-0' }}</span>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Payment :</span>
+                        <span class="font-weight-normal text-left">Rp {{ item.get('payment').value | number:
+                          '1.0-0' }}</span>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Balance :</span>
+                        <span class="font-weight-normal text-left">Rp {{ getBalance(i) | number:
+                          '1.0-0' }}</span>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Status Payment :</span>
+                        <span *ngIf="item.get('status_payment').value"
+                          class="font-weight-normal text-left text-success">PAID</span>
+                        <span *ngIf="!item.get('status_payment').value"
+                          class="font-weight-normal text-left text-danger">UNPAID</span>
                       </div>
                       <div class="d-flex p-0 w-100 mb-1">
                         <mat-form-field class="col-sm-7 p-0" appearance="outline">
                           <mat-label>Order Id</mat-label>
-                          <input matInput placeholder="Order ID" formControlName="order_id">
+                          <input matInput placeholder="Order ID" formControlName="order_id"
+                            [readonly]="item.get('status_payment').value">
                           <mat-icon (click)="getRandomString(i)" matSuffix>verified</mat-icon>
                         </mat-form-field>
                         <p class="col-sm p-info">
@@ -88,8 +121,10 @@
                         </p>
                       </div>
                       <div class="d-flex p-0 w-100 justify-content-between">
-                        <button class="mr-1 btn-color" (click)="rejectOrder(item.get('id').value)"
-                          mat-raised-button>Reject</button>
+                        <button *ngIf="!item.get('status_payment').value" class="mr-1 btn-color"
+                          (click)="rejectOrder(item.get('id').value)" mat-raised-button>Reject</button>
+                        <button *ngIf="!item.get('status_payment').value" class="mr-1 btn-color-payment"
+                          (click)="paymentOrder(i)" mat-raised-button>Payment</button>
                         <button (click)="doApprove(i, getUserInfo())" mat-raised-button color="accent">Aprrove</button>
                       </div>
                     </div>
@@ -116,20 +151,33 @@
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
                   <hr>
-                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
+                  <!-- <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea> -->
+
+                  <div class="card p-2 col-12 mb-2">
+
+                    <ng-container *ngFor="let item of getListWaiting(list.menu)">
+                      <span class="col-sm font-weight-bold text-info">{{ getNameProduct(item.id) }}</span>
+                      <div class="d-flex px-2 pt-1 text-primary">
+                        <span class="mr-1">Qty :</span><span class="mr-1"> {{ item.qty }}</span>
+                        <span class="mr-1">Discount :</span><span class="mr-1"> {{ item.discount }}%</span>
+                        <span class="mr-1">Total :</span><span class="mr-1">Rp {{ item.total | number:
+                          '1.0-0' }}</span>
+                      </div>
+                    </ng-container>
+
+                  </div>
+                  <!--  -->
                   <hr>
-                  <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
-                    <span class="font-weight-bold text-left"> Total :</span>
-                    <span class="font-weight-normal text-left">Rp
-                      {{ list.total | number: '1.0-0'  }}</span>
+
+                  <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                    <span class="font-weight-bold text-left"> Status Payment :</span>
+                    <span *ngIf="list.status_payment" class="font-weight-normal text-left text-success">PAID</span>
+                    <span *ngIf="!list.status_payment" class="font-weight-normal text-left text-danger">UNPAID</span>
                   </div>
-                  <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
-                    <span class="font-weight-bold text-left"> Diskon :</span>
-                    <span class="font-weight-normal text-left">
-                      {{ list.discount }}%</span>
-                  </div>
+
                   <div class="d-flex col-12 p-0">
-                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Grand Total :</span> Rp
+                    <h4 class="col-8 mb-0 mr-2 text-left p-0 pl-2"><span class="font-weight-bold"> Grand Total :</span>
+                      Rp
                       {{ list.grandtotal | number: '1.0-0'  }}</h4>
                     <div class="bounce-anim d-flex"><span class="pr">Waiting</span>
                       <ul class="p-0">
@@ -150,37 +198,237 @@
 
           <div class="display-4 text-center mb-1 ready">READY</div>
           <div class="on-ready">
-            <ng-container *ngFor="let list of listDataOnReady; let i = index;">
-              <mat-card class="list-card border-primary mb-1">
-                <div class="row item-order ">
-                  <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
-                  <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}</h3>
-                  <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
-                  <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
-                  <hr>
-                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
-                  <hr>
-                  <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
-                    <span class="font-weight-bold text-left"> Total :</span>
-                    <span class="font-weight-normal text-left">Rp
-                      {{ list.total | number: '1.0-0'  }}</span>
+
+            <!-- OPTION 1 -->
+            <!-- <form [formGroup]="form" autocomplete="off">
+              <ng-container formArrayName="formProd2">
+
+                <ng-container *ngFor="let list of formProd2.controls; let i = index;">
+                  <mat-card class="list-card border-primary mb-1">
+                    {{ checkValue(formProd2) }}
+                    <div class="row item-ready" [formGroupName]="i">
+                      <h3 *ngIf="list.get('meja').value !== 0" class="col-6 mb-0">Meja : {{ list.get('meja').value }}
+                      </h3>
+                      <h3 *ngIf="list.get('meja').value === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
+                      <h3 class="col-6  mb-0 text-right">{{ list.get('nama').value }}</h3>
+                      <div class="d-flex p-0 w-100 mb-1">
+                        <mat-form-field class="col-sm p-0" appearance="outline">
+                          <mat-label>Note</mat-label>
+                          <input matInput placeholder="Order ID" formControlName="desc" readonly>
+                        </mat-form-field>
+                      </div>
+
+
+                      <div class="card menu-items col-sm-12 d-flex px-2 justify-content-between mb-2">
+
+                        <ng-container *ngFor="let item of parseMenu2(i); let idx = index;">
+                          <div class="justify-content-between p-2">
+                            <div class="d-flex">
+                              <span class="col-sm font-weight-bold text-info">{{ getNameProduct2(item.id) }}</span>
+                              <mat-icon *ngIf="false" (click)="deleteItem2(i, idx)">close</mat-icon>
+                            </div>
+                            <div class="card m-2">
+                              <div class="d-flex px-2 pt-1 text-primary">
+                                Qty :
+                                <input class="col-sm ml-2" (change)="handleChangeQty2(i, $event, idx)"
+                                  [value]="item.qty" [disabled]="true">
+                              </div>
+                              <div class="d-flex px-2 pt-1 text-primary">
+                                Discount :
+                                <input class="col-sm ml-2 mr-2" (change)="handleChangeDisc2(i, $event, idx)"
+                                  [value]="item.discount" [disabled]="true">%
+                              </div>
+                              <div class="d-flex px-2 pt-1 text-primary justify-content-between">
+                                Total :
+                                <span class="col-sm text-right">Rp
+                                  {{ getTotal2(item.id, item.qty, item.discount, idx, i) | number: '1.0-0' }}</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </ng-container>
+
+                      </div>
+
+                      <button *ngIf="false" class="mr-1 mb-2 col-12" (click)="callMenu2(i)" mat-raised-button>Add
+                        Item</button>
+
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Grand Total :</span>
+                        <span class="font-weight-normal text-left">Rp {{ getGrandTotal2(i) | number:
+                          '1.0-0' }}</span>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Payment :</span>
+                        <span class="font-weight-normal text-left">Rp {{ list.get('payment').value | number:
+                          '1.0-0' }}</span>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Balance :</span>
+                        <span class="font-weight-normal text-left">Rp {{ getBalance2(i) | number:
+                          '1.0-0' }}</span>
+                      </div>
+                      <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                        <span class="font-weight-bold text-left"> Status Payment :</span>
+                        <span *ngIf="list.get('status_payment').value"
+                          class="font-weight-normal text-left text-success">PAID</span>
+                        <span *ngIf="!list.get('status_payment').value"
+                          class="font-weight-normal text-left text-danger">UNPAID</span>
+                      </div>
+                      <div class="d-flex p-0 w-100 mb-1">
+                        <mat-form-field class="col-sm-7 p-0" appearance="outline">
+                          <mat-label>Order Id</mat-label>
+                          <input matInput placeholder="Order ID" formControlName="order_id" readonly>
+                          <mat-icon matSuffix>verified</mat-icon>
+                        </mat-form-field>
+                        <p class="col-sm p-info">
+                          Tekan tanda centang untuk generate order Id
+                        </p>
+                      </div>
+                      <div class="d-flex p-0 w-100 justify-content-between">
+                        <button *ngIf="!list.get('status_payment').value" class="mr-1 btn-color-payment"
+                          (click)="paymentReady(i)" mat-raised-button>Payment</button>
+                        <button class="col-sm" (click)="done(list.get('id').value)" mat-raised-button>Done</button>
+                      </div>
+                    </div>
+                  </mat-card>
+                </ng-container>
+
+              </ng-container>
+            </form> -->
+
+            <!-- OPTION 2 -->
+            <form autocomplete="on">
+
+              <ng-container *ngFor="let list of listDataOnReady; let i = index;">
+                <mat-card class="list-card border-primary mb-1">
+                  <div class="row item-ready">
+                    <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}
+                    </h3>
+                    <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
+                    <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
+                    <div class="d-flex p-0 w-100 mb-1">
+                      <mat-form-field class="col-sm p-0" appearance="outline">
+                        <mat-label>Note</mat-label>
+                        <input matInput placeholder="Order ID" value="{{ list.desc }}" readonly>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="card menu-items col-sm-12 d-flex px-2 justify-content-between mb-2">
+
+                      <ng-container *ngFor="let item of parseMenu2(list.menu); let idx = index;">
+                        <div class="justify-content-between p-2">
+                          <div class="d-flex">
+                            <span class="col-sm font-weight-bold text-info">{{ getNameProduct2(item.id) }}</span>
+                            <!-- <mat-icon *ngIf="false" (click)="deleteItem2(i, idx)">close</mat-icon> -->
+                          </div>
+                          <div class="card m-2">
+                            <div class="d-flex px-2 pt-1 text-primary">
+                              Qty :
+                              <input class="col-sm ml-2" [value]="item.qty" [disabled]="true">
+                              <!-- <input class="col-sm ml-2" (change)="handleChangeQty2(i, $event, idx)"
+                                  [value]="item.qty" [disabled]="true"> -->
+                            </div>
+                            <div class="d-flex px-2 pt-1 text-primary">
+                              Discount :
+                              <input class="col-sm ml-2 mr-2" [value]="item.discount" [disabled]="true">%
+                              <!-- <input class="col-sm ml-2 mr-2" (change)="handleChangeDisc2(i, $event, idx)"
+                                  [value]="item.discount" [disabled]="true">% -->
+                            </div>
+                            <div class="d-flex px-2 pt-1 text-primary justify-content-between">
+                              Total :
+                              <span class="col-sm text-right">Rp
+                                {{ item.total | number: '1.0-0' }}</span>
+                              <!-- <span class="col-sm text-right">Rp
+                                  {{ getTotal2(item.id, item.qty, item.discount, idx, i) | number: '1.0-0' }}</span> -->
+                            </div>
+                          </div>
+
+                        </div>
+                      </ng-container>
+
+                    </div>
+
+                    <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                      <span class="font-weight-bold text-left"> Grand Total :</span>
+                      <span class="font-weight-normal text-left">Rp {{ list.grandtotal | number:
+                          '1.0-0' }}</span>
+                    </div>
+                    <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                      <span class="font-weight-bold text-left"> Payment :</span>
+                      <span class="font-weight-normal text-left">Rp {{ list.payment | number:
+                          '1.0-0' }}</span>
+                    </div>
+                    <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                      <span class="font-weight-bold text-left"> Balance :</span>
+                      <span class="font-weight-normal text-left">Rp {{ list.balance | number:
+                          '1.0-0' }}</span>
+                    </div>
+                    <div class="col-sm-12 d-flex px-2 justify-content-between mb-2">
+                      <span class="font-weight-bold text-left"> Status Payment :</span>
+                      <span *ngIf="list.status_payment" class="font-weight-normal text-left text-success">PAID</span>
+                      <span *ngIf="!list.status_payment" class="font-weight-normal text-left text-danger">UNPAID</span>
+                    </div>
+                    <div class="d-flex p-0 w-100 mb-1">
+                      <mat-form-field class="col-sm-7 p-0" appearance="outline">
+                        <mat-label>Order Id</mat-label>
+                        <input matInput placeholder="Order ID" value="{{list.order_id}}" readonly>
+                        <mat-icon matSuffix>verified</mat-icon>
+                      </mat-form-field>
+                      <p class="col-sm p-info">
+                        Tekan tanda centang untuk generate order Id
+                      </p>
+                    </div>
+                    <div class="d-flex p-0 w-100 justify-content-between">
+                      <button *ngIf="!list.status_payment" class="mr-1 btn-color-payment" (click)="paymentReady(list)"
+                        mat-raised-button>Payment</button>
+                      <button class="col-sm" (click)="done(list.id)" mat-raised-button>Done</button>
+                    </div>
                   </div>
-                  <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
-                    <span class="font-weight-bold text-left"> Diskon :</span>
-                    <span class="font-weight-normal text-left">
-                      {{ list.discount }}%</span>
+                </mat-card>
+
+              </ng-container>
+
+            </form>
+
+            <!-- OPTION 3 -->
+            <!-- <div class="on-ready">
+              <ng-container *ngFor="let list of listDataOnReady; let i = index;">
+                <mat-card class="list-card border-primary mb-1">
+                  <div class="row item-order ">
+                    <h3 *ngIf="list.meja === 0" class="col-6 mb-0">Take Away/Scan QR</h3>
+                    <h3 *ngIf="list.meja !== 0" class="col-6 mb-0">Meja : {{ list.meja }}</h3>
+                    <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
+                    <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
+                    <hr>
+                    <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
+                    <hr>
+                    <div class="col-sm-12 d-flex mb-0 px-2 justify-content-between">
+                      <span class="font-weight-bold text-left"> Total :</span>
+                      <span class="font-weight-normal text-left">Rp
+                        {{ list.total | number: '1.0-0'  }}</span>
+                    </div>
+                    <div class="col-sm-12 d-flex mb-2 px-2 justify-content-between">
+                      <span class="font-weight-bold text-left">General Diskon :</span>
+                      <span class="font-weight-normal text-left">
+                        {{ list.discount }}%</span>
+                    </div>
+                    <div class="d-flex w-100 align-items-center p-0">
+                      <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Grand Total :</span> Rp
+                        {{ list.grandtotal | number: '1.0-0'  }}</h4>
+                      <button class="col-sm" (click)="done(list.id)" mat-raised-button>Done</button>
+                    </div>
                   </div>
-                  <div class="d-flex w-100 align-items-center p-0">
-                    <h4 class="col-8 mb-0 text-left p-0"><span class="font-weight-bold"> Grand Total :</span> Rp
-                      {{ list.grandtotal | number: '1.0-0'  }}</h4>
-                    <button class="col-sm" (click)="done(list.id)" mat-raised-button>Done</button>
-                  </div>
-                </div>
-              </mat-card>
-            </ng-container>
+                </mat-card>
+              </ng-container>
+            </div> -->
+
           </div>
 
+
         </div>
+
+
       </div>
     </div>
 

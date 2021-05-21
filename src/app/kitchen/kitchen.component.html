@@ -30,7 +30,19 @@
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
                   <hr>
-                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
+                  <!-- <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea> -->
+
+                  <div class="card p-2 col-12 mb-2">
+
+                    <ng-container *ngFor="let item of getListWaiting(list.menu)">
+                      <div class="d-flex px-2 pt-1 text-primary">
+                        <span class="col-sm font-weight-bold text-info">{{ getNameProduct(item.id) }}</span>
+                        <span class="col-sm font-weight-bold text-info">Pesan : {{ item.qty }}</span>
+                      </div>
+                    </ng-container>
+
+                  </div>
+
                   <hr>
                   <div class="d-flex col-12 p-0 justify-content-end">
                     <button (click)="doProccess(list.id, getUserInfo())" color="primary"
@@ -61,7 +73,15 @@
                   <h3 class="col-6  mb-0 text-right">{{ list.nama }}</h3>
                   <h4 class="col-12 mb-0 text-left"><span class="font-weight-bold"> Note :</span> {{ list.desc }}</h4>
                   <hr>
-                  <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea>
+                  <!-- <textarea class="text-menu" name='awesome' disabled>{{ list.menu }}</textarea> -->
+                  <div class="card p-2 col-12 mb-2">
+                    <ng-container *ngFor="let item of getListWaiting(list.menu)">
+                      <div class="d-flex px-2 pt-1 text-primary">
+                        <span class="col-sm font-weight-bold text-info">{{ getNameProduct(item.id) }}</span>
+                        <span class="col-sm font-weight-bold text-info">Pesan : {{ item.qty }}</span>
+                      </div>
+                    </ng-container>
+                  </div>
                   <hr>
                   <div class="d-flex col-12 p-0 justify-content-end">
                     <button (click)="doneProccess(list.id)" mat-raised-button>Done</button>

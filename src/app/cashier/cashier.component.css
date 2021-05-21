@@ -158,3 +158,35 @@ body {
   border: 1px solid green;
   text-align: center;
 }
+
+
+/* ========================= */
+
+::ng-deep input {
+  border: 1 solid #14a2a9 !important;
+  border-radius: 5px;
+  width: 20%;
+  text-align: center;
+}
+
+
+.menu-items {
+  /* background-color: #14a2a9; */
+  max-height: 300px;
+  overflow: auto;
+}
+
+.btn-color-payment {
+  background-color: #01d1c7;
+  color: #fff;
+}
+
+/* input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} */
+
+/* input:disabled {
+  background-color: white;
+} */

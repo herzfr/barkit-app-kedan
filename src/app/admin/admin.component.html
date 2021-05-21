@@ -77,9 +77,9 @@
           <mat-form-field>
             <mat-label>Select an option</mat-label>
             <mat-select (selectionChange)="onChange($event)" [(value)]="selected">
-              <mat-option value="1">All</mat-option>
+              <mat-option value="1">All Day</mat-option>
               <mat-option value="2">Per Day</mat-option>
-              <mat-option value="3">Between</mat-option>
+              <mat-option value="3">Between Days</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -89,9 +89,15 @@
           <div class="example-container mat-elevation-z8" #TABLE>
             <table mat-table #table [dataSource]="dataSource">
 
-              <ng-container matColumnDef="meja">
+              <!-- <ng-container matColumnDef="meja">
                 <th mat-header-cell *matHeaderCellDef> No Meja. </th>
                 <td mat-cell *matCellDef="let element"> {{element.meja}} </td>
+                <td mat-footer-cell *matFooterCellDef> Total </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="order_id">
+                <th mat-header-cell *matHeaderCellDef> ORDER ID. </th>
+                <td mat-cell *matCellDef="let element"> {{element.order_id}} </td>
                 <td mat-footer-cell *matFooterCellDef> Total </td>
               </ng-container>
 
@@ -103,16 +109,33 @@
 
               <ng-container matColumnDef="menu">
                 <th mat-header-cell *matHeaderCellDef> Menu. </th>
-                <td mat-cell *matCellDef="let element"> <textarea class="text-menu" name='awesome'
-                    disabled> {{element.menu}} </textarea> </td>
+                <td mat-cell *matCellDef="let element">
+                  <!-- <textarea class="text-menu" name='awesome'
+                    disabled> {{element.menu}} </textarea>  -->
+
+                  <div class="card card-menu p-2 mb-2 mt-2">
+
+                    <ng-container *ngFor="let item of getListWaiting(element.menu)">
+                      <span class="col-sm font-weight-bold text-info">{{ getNameProduct(item.id) }}</span>
+                      <div class="d-flex px-2 pt-1 text-primary">
+                        <span class="mr-1">Qty :</span><span class="mr-1"> {{ item.qty }}</span>
+                        <span class="mr-1">Discount :</span><span class="mr-1"> {{ item.discount }}%</span>
+                        <span class="mr-1">Total :</span><span class="mr-1">Rp {{ item.total | number:
+                            '1.0-0' }}</span>
+                      </div>
+                    </ng-container>
+
+                  </div>
+
+                </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
               </ng-container>
 
-              <ng-container matColumnDef="desc">
+              <!-- <ng-container matColumnDef="desc">
                 <th mat-header-cell *matHeaderCellDef> Desc. </th>
                 <td mat-cell *matCellDef="let element"> {{element.desc}} </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
-              </ng-container>
+              </ng-container> -->
 
               <ng-container matColumnDef="onreserve">
                 <th mat-header-cell *matHeaderCellDef> Reserve. </th>
@@ -120,7 +143,7 @@
                 <td mat-footer-cell *matFooterCellDef> </td>
               </ng-container>
 
-              <ng-container matColumnDef="onprosses">
+              <!-- <ng-container matColumnDef="onprosses">
                 <th mat-header-cell *matHeaderCellDef> Proses. </th>
                 <td mat-cell *matCellDef="let element"> {{element.onprosses}} </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
@@ -130,9 +153,9 @@
                 <th mat-header-cell *matHeaderCellDef> Ready. </th>
                 <td mat-cell *matCellDef="let element"> {{element.onready}} </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
-              </ng-container>
+              </ng-container> -->
 
-              <ng-container matColumnDef="cashier">
+              <!-- <ng-container matColumnDef="cashier">
                 <th mat-header-cell *matHeaderCellDef> Kasir. </th>
                 <td class="text-truncate cashier-line" mat-cell *matCellDef="let element">
                   {{element.cashier}}
@@ -144,9 +167,9 @@
                 <th mat-header-cell *matHeaderCellDef> Kitchen. </th>
                 <td class="text-truncate kitchen-line" mat-cell *matCellDef="let element"> {{element.kitchen}} </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
-              </ng-container>
+              </ng-container> -->
 
-              <ng-container matColumnDef="total">
+              <!-- <ng-container matColumnDef="total">
                 <th mat-header-cell *matHeaderCellDef> Total. </th>
                 <td mat-cell *matCellDef="let element">Rp {{element.total | number: '1.0-0'}} </td>
                 <td mat-footer-cell *matFooterCellDef>Rp {{ allTotal | number: '1.0-0' }} </td>
@@ -156,13 +179,40 @@
                 <th mat-header-cell *matHeaderCellDef> Diskon. </th>
                 <td mat-cell *matCellDef="let element"> {{element.discount}}% </td>
                 <td mat-footer-cell *matFooterCellDef> </td>
-              </ng-container>
+              </ng-container> -->
 
 
               <ng-container matColumnDef="grandtotal">
                 <th mat-header-cell *matHeaderCellDef> Grand Total. </th>
                 <td mat-cell *matCellDef="let element">Rp {{element.grandtotal | number: '1.0-0'}} </td>
                 <td mat-footer-cell *matFooterCellDef>Rp {{ allGrandTotal | number: '1.0-0' }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="payment">
+                <th mat-header-cell *matHeaderCellDef> Payment. </th>
+                <td mat-cell *matCellDef="let element">Rp {{element.payment | number: '1.0-0'}} </td>
+                <td mat-footer-cell *matFooterCellDef>Rp {{ allPayment | number: '1.0-0' }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="balance">
+                <th mat-header-cell *matHeaderCellDef> Balance. </th>
+                <td mat-cell *matCellDef="let element">Rp {{element.balance | number: '1.0-0'}} </td>
+                <td mat-footer-cell *matFooterCellDef> Rp {{ allBalance | number: '1.0-0' }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status_payment">
+                <th mat-header-cell *matHeaderCellDef> S.Payment </th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="element.status_payment" class="font-weight-normal text-left text-success">PAID</span>
+                  <span *ngIf="!element.status_payment" class="font-weight-normal text-left text-danger">UNPAID</span>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef> Tanggal. </th>
+                <td mat-cell *matCellDef="let element">{{ element.createdAt | date:'medium' }} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
               </ng-container>
 
 

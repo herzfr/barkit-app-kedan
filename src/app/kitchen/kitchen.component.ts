@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { KitchenService } from '../services/kitchen.service';
 import { SocketioService } from '../services/socketio.service';
 import { Howl, Howler } from 'howler';
+import { AvailableService } from '../services/available.service';
 
 @Component({
   selector: 'app-kitchen',
@@ -25,7 +26,10 @@ export class KitchenComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private socketService: SocketioService, private kitchenService: KitchenService, private route: Router, private _snackBar: MatSnackBar) {
+  allDataMenu;
+
+  constructor(private socketService: SocketioService, private kitchenService: KitchenService, private route: Router,
+    private _snackBar: MatSnackBar, private availableService: AvailableService) {
     this.getUserInfo()
     this.getDataAll()
   }
@@ -51,6 +55,7 @@ export class KitchenComponent implements OnInit {
   }
 
   getDataAll() {
+    this.getProduct()
     this.getDataOnWaiting()
     this.getDataOnProsses()
   }
@@ -86,6 +91,31 @@ export class KitchenComponent implements OnInit {
       }
     })
   }
+
+  getListWaiting(event) {
+    return JSON.parse(event)
+  }
+
+  getNameProduct(id) {
+    // console.log(id);
+    for (const key in this.allDataMenu) {
+      if (Object.prototype.hasOwnProperty.call(this.allDataMenu, key)) {
+        const element = this.allDataMenu[key];
+        if (id === element.id) return element.name;
+      }
+    }
+  }
+
+  getProduct() {
+    this.availableService.getAllMenu().subscribe(res => {
+      console.log(res);
+      if (res['codestatus'] == "00") {
+        this.allDataMenu = res['values']
+      }
+    })
+  }
+
+
 
   doProccess(id, kitchen) {
     // console.log(id, kitchen);
