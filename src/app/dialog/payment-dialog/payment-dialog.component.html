@@ -22,7 +22,8 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Masukan Pembayaran</mat-label>
-      <input matInput type="number" placeholder="Placeholder" (keyup)="applyFilter($event.target.value)">
+      <input matInput type="number" [(ngModel)]="inputPay" [ngModelOptions]="{standalone: true}"
+        placeholder="Placeholder" (keyup)="applyFilter($event.target.value)">
       <!-- <mat-hint>Hint</mat-hint> -->
     </mat-form-field>
 

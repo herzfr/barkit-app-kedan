@@ -19,6 +19,7 @@ export class PaymentDialogComponent implements OnInit {
 
   selectedType;
   menu;
+  inputPay = 0;
   grandTotal = 0;
   paymentChange = 0;
   balance = 0;
@@ -27,7 +28,7 @@ export class PaymentDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<PaymentDialogComponent>, @Inject(MAT_DIALOG_DATA) data,
     private paymentService: PaymentService, private dialog: MatDialog) {
-    console.log(data);
+    // console.log(data);
     this.dataAll = data;
     this.id = this.dataAll.id;
     this.orderId = this.dataAll.order_id;
@@ -49,23 +50,32 @@ export class PaymentDialogComponent implements OnInit {
   }
 
   applyFilter(event) {
-    console.log(event);
-    var inputPay = parseInt(event)
-    // this.paymentChange = this.grandTotal - inputPay;
-    if (inputPay >= this.grandTotal) {
+    // console.log(event);
+    this.inputPay = parseFloat(event)
+    this.moneychange = 0;
+
+    if (this.inputPay <= this.grandTotal) {
+      // console.log('test 1');
+      this.paymentChange = this.inputPay;
+      this.balance = this.grandTotal - this.paymentChange
+    } else if (this.grandTotal <= this.inputPay) {
+      // console.log('test 2');
       this.paymentChange = this.grandTotal;
-      this.balance = this.paymentChange - this.grandTotal;
-      this.moneychange = inputPay - this.paymentChange;
+      this.balance = this.paymentChange - this.grandTotal
+      this.moneychange = this.inputPay - this.paymentChange
+    } else if (this.inputPay > this.grandTotal) {
+      // console.log('test 3');
+      // this.paymentChange = this.inputPay;
+      // this.moneychange = this.inputPay - this.paymentChange
     } else {
-      this.paymentChange = this.grandTotal - inputPay;
-      this.balance = this.grandTotal;
-      this.moneychange = inputPay - this.paymentChange;
+      // console.log('test 4');
+      this.paymentChange = 0;
+      this.balance = this.grandTotal - this.paymentChange
     }
   }
 
   onPayment() {
-
-    if (this.selectedType !== undefined) {
+    if (this.selectedType !== undefined && this.inputPay !== 0 && this.balance === 0) {
       // console.log(this.selectedType);
       let obj: any = new Object;
       obj.id = this.id;
@@ -79,7 +89,7 @@ export class PaymentDialogComponent implements OnInit {
         this.dialogRef.close(res)
       })
     } else {
-      this.customDialog("sms_failed", "tipe payment tidak boleh kosong")
+      this.customDialog("sms_failed", "Masukan tipe payment dan input payment terisi, serta pastikan nilai balance 0")
     }
 
   }

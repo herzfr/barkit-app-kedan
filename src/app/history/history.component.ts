@@ -217,7 +217,7 @@ export class HistoryComponent implements OnInit {
   }
 
   payment(i) {
-    console.log(i);
+    // console.log(i);
 
     const dialogConfig2 = new MatDialogConfig();
     // dialogConfig2.data = this.formArray2.controls[i].value;
@@ -231,10 +231,10 @@ export class HistoryComponent implements OnInit {
       dialogConfig2
     );
     dialogCustom2.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res !== undefined) {
         if (res['codestatus'] == "00") {
-          this.getDataAll()
+          this.setIsPerday()
           this.customDialog("check_circle", res['message'])
         } else {
           this.customDialog("sms_failed", "update payment gagal")

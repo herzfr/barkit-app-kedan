@@ -43,7 +43,7 @@ export class MenuDialogComponent implements OnInit {
   }
 
   choose(event) {
-    console.log(event);
+    // console.log(event);
     let obj: any = new Object;
     obj.id = event.id;
     obj.qty = 1;

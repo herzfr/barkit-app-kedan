@@ -120,7 +120,8 @@ export class AdminComponent implements OnInit {
   }
 
   setPaymentType(type) {
-    return this.categoryl.find(x => x.id === type).name;
+    // return this.categoryl.filter(x => x.id === type);
+    return this.categoryl.filter(x => x.id === type).map(x => x.name);
   }
 
   getNameProduct(id) {

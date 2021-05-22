@@ -120,7 +120,7 @@ export class OrderComponent implements OnInit {
 
     dialogChooseMenu.afterClosed().subscribe(res => {
       if (res != undefined) {
-        console.log(res);
+        // console.log(res);
         this.allOrderHere.push(res)
         // console.log(this.allOrderHere);
         this.checkBadge()
@@ -186,7 +186,7 @@ export class OrderComponent implements OnInit {
       obj.total = this.total;
 
 
-      console.log(obj);
+      // console.log(obj);
       // console.log("pesan 1");
       this.cashierService.sendSelfOrder(obj).subscribe(res => {
         if (res['codestatus'] === "00") {
