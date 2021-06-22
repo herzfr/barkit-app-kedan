@@ -69,6 +69,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
   // dataSource2: any = new BehaviorSubject<AbstractControl[]>([]);
 
   allDataMenu;
+  ads;
 
   constructor(private socketService: SocketioService, private cashierService: CashierService, private dialog: MatDialog,
     private route: Router, private _snackBar: MatSnackBar, private waService: WhatsappService, private _formBuilder: FormBuilder,
@@ -703,6 +704,7 @@ export class CashierComponent implements OnInit, AfterContentChecked {
       // console.log(res);
       if (res['codestatus'] === "00") {
         this.getDataAll()
+        this.send()
       }
     })
   }

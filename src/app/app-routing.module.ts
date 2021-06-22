@@ -12,6 +12,7 @@ import { KitchenComponent } from './kitchen/kitchen.component';
 import { LoginComponent } from './login/login.component';
 import { OrderComponent } from './order/order.component';
 import { AuthGuard } from './services/auth.guard';
+import { TerminalKedanComponent } from './terminal-kedan/terminal-kedan.component';
 import { UserComponent } from './user/user.component';
 
 
@@ -44,6 +45,14 @@ const routes: Routes = [
   {
     path: "orderself",
     component: OrderComponent,
+    canActivate: [AuthGuard],
+    data: {
+      allowedRoles: ["ROLE_CASHIER"]
+    },
+  },
+  {
+    path: "terminal",
+    component: TerminalKedanComponent,
     canActivate: [AuthGuard],
     data: {
       allowedRoles: ["ROLE_CASHIER"]

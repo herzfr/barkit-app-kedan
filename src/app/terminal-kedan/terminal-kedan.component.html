@@ -1,0 +1,67 @@
+<div class="container-fluid h-general p-0">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <youtube-player suggestedQuality="highres" [videoId]=id (ready)="savePlayer($event)" height="70%" width="100%"
+        (stateChange)="stateEvent($event)">
+      </youtube-player>
+
+      <div class="card">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleCaptions" *ngFor="let item of ads;let index = index"
+              [attr.data-slide-to]="index"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let item of ads;let index = index; let isFirst = first"
+              [ngClass]="{active:isFirst}">
+              <img [src]="item.avatar" class="d-block w-100" [alt]="item.title">
+              <div class="carousel-caption d-none d-md-block">
+                <h5 [textContent]="item.title"></h5>
+              </div>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h2 class="text-dark text-center p-0 my-2">Daftar Antrian Pesanan</h2>
+      <ul class="list-group">
+        <li *ngIf="ifHaveOrder">
+          <mat-card style="background-color: aliceblue;">
+            <h1 class="display-4 mb-0 text-center text-dark  d-flex justify-content-center align-items-center"
+              style="height: 60vh;">Belum Ada Pesanan</h1>
+          </mat-card>
+        </li>
+        <li *ngFor="let hero of listDataOnOrder">
+          <!-- <span class="badge">{{hero.id}}</span> {{hero.name}} -->
+          <mat-card *ngIf="hero.status === 0 || hero.status === 3" class="d-flex m-1"
+            [class.proccessing]="hero.status === 0">
+            <div class="col-sm">
+              <h1 class="display-4 mb-0">{{hero.nama}}</h1>
+            </div>
+            <div class="col-sm">
+              <h1 class="display-4 mb-0">Meja : {{hero.meja}}</h1>
+            </div>
+            <div class="col-sm">
+              <h1 *ngIf="hero.status === 0" class="display-4 mb-0">PROCCESS...</h1>
+              <h1 *ngIf="hero.status === 3" class="display-4 mb-0">DONE.</h1>
+            </div>
+          </mat-card>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+</div>

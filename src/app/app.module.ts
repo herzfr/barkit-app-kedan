@@ -58,6 +58,8 @@ import { ChooseDialogComponent } from './dialog/choose-dialog/choose-dialog.comp
 import { HistoryComponent } from './history/history.component';
 import { PaymentDialogComponent } from './dialog/payment-dialog/payment-dialog.component';
 import { MenuDialogComponent } from './dialog/menu-dialog/menu-dialog.component';
+import { TerminalKedanComponent } from './terminal-kedan/terminal-kedan.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 
 export function playerFactory() {
@@ -93,7 +95,8 @@ export function playerFactory() {
     ChooseDialogComponent,
     HistoryComponent,
     PaymentDialogComponent,
-    MenuDialogComponent
+    MenuDialogComponent,
+    TerminalKedanComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +114,7 @@ export function playerFactory() {
       secondaryColour: '#ffffff',
       tertiaryColour: '#ffffff'
     }),
-
+    YouTubePlayerModule,
     QRCodeModule,
     LeafletModule,
 

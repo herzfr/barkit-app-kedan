@@ -119,4 +119,26 @@ export class ManagementService {
         })
       )
   }
+
+
+  getAllDataToday() {
+    return this.http.get(this.apiUrl + "/api/getAllOrderToday", this.httpOptions)
+      .pipe(
+        // tap(usr => {
+        // }),
+        timeout(this.timeOut),
+        catchError(e => {
+          if (e.name === "TimeoutError") {
+            // this.showNotification("error", e.message)
+          } else if (e.name === "HttpErrorResponse") {
+            if (e.status == 401) {
+              // this.showNotification("error", e.error.message);
+            } else {
+              // this.showNotification("error", e.message);
+            }
+          }
+          return of(e);
+        })
+      )
+  }
 }
