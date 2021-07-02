@@ -43,7 +43,7 @@ export class TerminalKedanComponent implements OnInit {
 
   ifHaveOrder: boolean;
 
-  constructor(private socketService: SocketioService, private cashierService: CashierService, private dialog: MatDialog,
+  constructor(private socketService: SocketioService, private dialog: MatDialog,
     private route: Router, private _snackBar: MatSnackBar, private availableService: AvailableService,
     private changeDetector: ChangeDetectorRef, private adds: AddsService, private managementService: ManagementService) {
     this.getDataAll()
@@ -54,7 +54,7 @@ export class TerminalKedanComponent implements OnInit {
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
-        console.log(message);
+        // console.log(message);
         this.getDataAll()
         // if (message == "00") {
         //   this.getDataAll()
@@ -90,7 +90,7 @@ export class TerminalKedanComponent implements OnInit {
     function scrollDown(el) {
       el.animate({
         scrollTop: el[0].scrollHeight
-      }, 4000, function () {
+      }, 10000, function () {
         scrollUp(el)
       });
     };
@@ -120,10 +120,12 @@ export class TerminalKedanComponent implements OnInit {
 
   savePlayer(player) {
     player.target.playVideo()
+    player.target.mute()
   }
 
   stateEvent(state) {
-    if (state.data === 0) state.target.playVideo()
+    // console.log(state);
+    if (state.data === 0) state.target.playVideo() && state.target.mute()
   }
 
 
@@ -185,20 +187,25 @@ export class TerminalKedanComponent implements OnInit {
 
   getAllDataToday() {
     this.managementService.getAllDataToday().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res['codestatus'] === "00") {
         this.listDataOnOrder = res['values']
-        // console.log(this.listDataOnOrder.length);
-        if (this.listDataOnOrder.length > 0) {
-          this.ifHaveOrder = true
-        } else {
-          this.ifHaveOrder = false;
-        }
+        // console.log(this.listDataOnOrder.status);
+        // if (this.listDataOnOrder.length > 0) {
+        //   this.ifHaveOrder = true
+        // } else {
+        //   this.ifHaveOrder = false;
+        // }
 
       }
     })
   }
 
+
+  logout() {
+    localStorage.clear()
+    this.route.navigate(['/login'])
+  }
 
 
 }

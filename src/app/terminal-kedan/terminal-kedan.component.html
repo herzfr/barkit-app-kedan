@@ -1,7 +1,7 @@
 <div class="container-fluid h-general p-0">
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-5">
       <youtube-player suggestedQuality="highres" [videoId]=id (ready)="savePlayer($event)" height="70%" width="100%"
         (stateChange)="stateEvent($event)">
       </youtube-player>
@@ -32,30 +32,39 @@
         </div>
       </div>
     </div>
-    <div class="col-sm">
-      <h2 class="text-dark text-center p-0 my-2">Daftar Antrian Pesanan</h2>
+    <div class="col-sm-7">
+      <div class="row justify-content-between">
+        <h2 class="text-light text-custom-title p-0 my-2">Daftar Antrian Pesanan</h2>
+        <button (click)="logout()" mat-button>
+          <mat-icon style="color: aliceblue !important;">logout</mat-icon>
+        </button>
+      </div>
       <ul class="list-group">
-        <li *ngIf="ifHaveOrder">
-          <mat-card style="background-color: aliceblue;">
+        <!-- <li *ngIf="!ifHaveOrder">
+          <mat-card style="background-color: aliceblue;" (click)="logout()">
             <h1 class="display-4 mb-0 text-center text-dark  d-flex justify-content-center align-items-center"
               style="height: 60vh;">Belum Ada Pesanan</h1>
           </mat-card>
-        </li>
-        <li *ngFor="let hero of listDataOnOrder">
-          <!-- <span class="badge">{{hero.id}}</span> {{hero.name}} -->
-          <mat-card *ngIf="hero.status === 0 || hero.status === 3" class="d-flex m-1"
-            [class.proccessing]="hero.status === 0">
-            <div class="col-sm">
-              <h1 class="display-4 mb-0">{{hero.nama}}</h1>
-            </div>
-            <div class="col-sm">
-              <h1 class="display-4 mb-0">Meja : {{hero.meja}}</h1>
-            </div>
-            <div class="col-sm">
-              <h1 *ngIf="hero.status === 0" class="display-4 mb-0">PROCCESS...</h1>
-              <h1 *ngIf="hero.status === 3" class="display-4 mb-0">DONE.</h1>
-            </div>
-          </mat-card>
+        </li> -->
+        <li>
+          <ng-container *ngFor="let hero of listDataOnOrder">
+            <mat-card *ngIf="hero.status === 0 || hero.status === 3" class="d-flex m-3"
+              [class.proccessing]="hero.status === 0" [class.dones]="hero.status === 3">
+              <div class="col-sm-6">
+                <div class="text-custom p-0">{{hero.nama}}</div>
+              </div>
+              <div class="col-sm">
+                <div class="text-custom p-0">Meja : {{hero.meja}}</div>
+              </div>
+              <div class="col-sm">
+                <div *ngIf="hero.status === 0" class="text-custom p-0">PROCCESS...</div>
+                <div *ngIf="hero.status === 3" class="text-custom p-0">DONE.</div>
+              </div>
+              <!-- <div class="col-sm">
+                <mat-icon>cached</mat-icon>
+              </div> -->
+            </mat-card>
+          </ng-container>
         </li>
       </ul>
     </div>

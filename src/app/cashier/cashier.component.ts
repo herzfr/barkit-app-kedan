@@ -787,6 +787,10 @@ export class CashierComponent implements OnInit, AfterContentChecked {
     this.route.navigate(['/history'])
   }
 
+  terminalOrder() {
+    this.route.navigate(['/terminal'])
+  }
+
   logout() {
     localStorage.clear()
     this.route.navigate(['/login'])
